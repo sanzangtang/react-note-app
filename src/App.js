@@ -6,7 +6,13 @@ import Landpage from './containers/LandPage/LandPage';
 import Auth from './containers/Auth/Auth';
 
 class App extends Component {
+  componentDidMount() {
+    // check auth state here when page refreshes
+    console.log('App: componentDidMount()');
+  }
+
   render() {
+    // protect routes here
     return (
       <div>
         <Switch>

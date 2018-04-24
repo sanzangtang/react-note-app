@@ -17,6 +17,6 @@ export const ADD_NEW_NOTE_SUCCESS = 'ADD_NEW_NOTE_SUCCESS';
 export const FETCH_NOTES_SUCCESS = 'FETCH_NOTES_SUCCESS';
 
 // authentication
-export const SIGN_IN_STAERT = 'SIGN_IN_STAERT';
+export const SIGN_IN_START = 'SIGN_IN_START';
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
 export const SIGN_IN_FAIL = 'SIGN_IN_FAIL';

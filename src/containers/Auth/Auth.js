@@ -81,7 +81,7 @@ class Auth extends Component {
       email: null,
       password: null
     },
-    error: false
+    error: false // fake
   };
 
   _handleSwitchMode = () => {
@@ -100,6 +100,7 @@ class Auth extends Component {
 
   _handleFormSubmit = event => {
     event.preventDefault();
+    this.props.onSignIn(this.state.loginForm);
   };
 
   _checkFormValidation = () => {
@@ -201,7 +202,9 @@ Auth.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    onSignIn: userData => dispatch(actions.signInAsync(userData))
+  };
 };
 
 export default withStyles(styles, { withTheme: true })(

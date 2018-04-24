@@ -12,22 +12,45 @@ const signInUrl =
 
 export const signInStart = () => {
   return {
-    type: actionTypes.SIGN_IN_STAERT
+    type: actionTypes.SIGN_IN_START
   };
 };
 
-export const signInSuccess = () => {
+export const signInSuccess = resp => {
   return {
-    type: actionTypes.SIGN_IN_SUCCESS
+    type: actionTypes.SIGN_IN_SUCCESS,
+    resp: resp
   };
 };
 
-export const signInFail = () => {
+export const signInFail = error => {
   return {
-    type: actionTypes.SIGN_IN_FAIL
+    type: actionTypes.SIGN_IN_FAIL,
+    error: error
   };
 };
 
-export const signInAsync = () => {
-  return (dispatch, getState) => {};
+export const signInAsync = userData => {
+  return (dispatch, getState) => {
+    dispatch(signInStart());
+    const postData = {
+      ...userData,
+      returnSecureToken: true
+    };
+    axiosIns
+      .post(signInUrl, postData)
+      .then(resp => {
+        // add idToken, uid expirationDate to localStorage
+        dispatch(signInSuccess(resp));
+      })
+      .catch(error => {
+        dispatch(signInFail(error));
+      });
+  };
+};
+
+export const checkAuthState = () => {
+  // check current date < expirationDate and idToken uid are not null
+  // if true refill redux state with idToken, uid
+  // else clear localStorage, and clear redux auth state
 };

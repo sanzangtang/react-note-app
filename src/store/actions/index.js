@@ -9,3 +9,5 @@ export {
   saveCurrentNoteStart,
   saveCurrentNoteAsync
 } from './notes';
+
+export { signInAsync } from './auth';
