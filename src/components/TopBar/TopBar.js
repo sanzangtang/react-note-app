@@ -10,6 +10,10 @@ import Save from '@material-ui/icons/Save';
 import Delete from '@material-ui/icons/Delete';
 import Tooltip from 'material-ui/Tooltip';
 import Typography from 'material-ui/Typography';
+import { CircularProgress } from 'material-ui/Progress';
+import green from 'material-ui/colors/green';
+import Check from '@material-ui/icons/Check';
+import classNames from 'classnames';
 
 const drawerWidth = 300;
 
@@ -52,7 +56,8 @@ const styles = theme => ({
     maxWidth: '500px'
   },
   saveButton: {
-    color: theme.palette.secondary.light
+    color: theme.palette.secondary.light,
+    transition: 'all 0.35s ease-in-out'
   },
   deleteButton: {
     color: theme.palette.secondary.light
@@ -60,18 +65,78 @@ const styles = theme => ({
   recentNotes: {
     padding: theme.spacing.unit * 2,
     color: theme.palette.secondary.light
+  },
+  // button animation
+  buttonSuccess: {
+    backgroundColor: green[300],
+    '&:hover': {
+      backgroundColor: green[500]
+    },
+    transform: 'rotateY(180deg)'
+  },
+  checkIcon: {
+    transform: 'rotateY(-180deg)'
+  },
+  fabProgress: {
+    color: green[300],
+    position: 'absolute',
+    top: -6,
+    left: -6,
+    zIndex: 1
   }
 });
 
 class TopBar extends Component {
+  // fake
+  // state = {
+  //   loading: false,
+  //   success: false
+  // };
+
   componentDidUpdate() {
     // console.log('Topbar: componentDidUpdate() ');
     // console.log(this.props.location.pathname);
   }
 
+  // handleButtonClick = () => {
+  //   if (!this.state.loading) {
+  //     this.setState(
+  //       {
+  //         success: false,
+  //         loading: true
+  //       },
+  //       () => {
+  //         setTimeout(() => {
+  //           this.setState(
+  //             {
+  //               loading: false,
+  //               success: true
+  //             },
+  //             () => {
+  //               setTimeout(() => {
+  //                 this.setState({
+  //                   loading: false,
+  //                   success: false
+  //                 });
+  //               }, 2000);
+  //             }
+  //           );
+  //         }, 1000);
+  //       }
+  //     );
+  //   }
+  // };
+
   render() {
     console.log('TopBar: render()');
     const { classes } = this.props;
+
+    // change button class based on state
+    const { loading, success } = this.props.saveNoteState;
+    const buttonClassname = classNames([classes.saveButton], {
+      [classes.buttonSuccess]: success
+    });
+
     // topbar will render first so it does not receive currentNote
     // which is handled in Editor
     const title = this.props.currentNote ? this.props.currentNote.title : null;
@@ -109,9 +174,13 @@ class TopBar extends Component {
           <Tooltip title="Save">
             <IconButton
               onClick={this.props.handleSaveCurrentNote}
-              className={classes.saveButton}
+              // onClick={this.handleButtonClick}
+              className={buttonClassname}
             >
-              <Save />
+              {success ? <Check className={classes.checkIcon} /> : <Save />}
+              {loading && (
+                <CircularProgress size={59} className={classes.fabProgress} />
+              )}
             </IconButton>
           </Tooltip>
         </React.Fragment>

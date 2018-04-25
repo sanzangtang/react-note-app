@@ -4,8 +4,11 @@ const initialState = {
   notes: [],
   currentNote: null,
   ifSaveCurrentNote: false,
+  saveNoteState: {
+    loading: false,
+    success: false
+  },
   newNote: null,
-  loading: false,
   error: null
 };
 
@@ -26,16 +29,24 @@ const reducer = (state = initialState, action) => {
       };
     case actionTypes.UPDATE_CURRENT_NOTE_CONTENT:
       // also append the updated note into the notes
-      // no refecthing data to save requests
+      // no refecthing data to save request times
+
+      const oldNotes = state.notes.slice();
+
+      const noteIndex = oldNotes.findIndex(val => {
+        return val.id === state.currentNote.id;
+      });
+
+      // must updat both title and content
+      oldNotes[noteIndex] = {
+        ...oldNotes[noteIndex],
+        title: state.currentNote.title,
+        content: action.content
+      };
+
       return {
         ...state,
-        notes: {
-          ...state.notes,
-          [state.currentNote.id]: {
-            ...state.currentNote,
-            content: action.content
-          }
-        },
+        notes: oldNotes,
         currentNote: {
           ...state.currentNote,
           content: action.content
@@ -45,11 +56,32 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SAVE_CURRENT_NOTE_START:
       return {
         ...state,
-        ifSaveCurrentNote: true
+        ifSaveCurrentNote: true, // trigger editor to call saveCurrentNoteAsync()
+        // update saving status
+        saveNoteState: {
+          ...state.saveNoteState,
+          loading: true,
+          success: false
+        }
       };
     case actionTypes.SAVE_CURRENT_NOTE_SUCCESS:
       return {
-        ...state
+        ...state,
+        // update saving status
+        saveNoteState: {
+          ...state.saveNoteState,
+          loading: false,
+          success: true
+        }
+      };
+    case actionTypes.SAVE_CURRENT_NOTE_DONE:
+      return {
+        ...state,
+        saveNoteState: {
+          ...state.saveNoteState,
+          loading: false,
+          success: false
+        }
       };
     case actionTypes.CLEAR_CURRENT_NOTE:
       return {

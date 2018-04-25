@@ -73,6 +73,7 @@ class MainLayout extends React.Component {
           notes={this.props.notes}
           currentNote={this.props.currentNote}
           location={this.props.location} // for checking routes and update title
+          saveNoteState={this.props.saveNoteState}
         />
 
         <SideBar
@@ -112,7 +113,8 @@ const mapStateToProps = state => {
   return {
     notes: state._notes.notes,
     currentNote: state._notes.currentNote,
-    newNote: state._notes.newNote
+    newNote: state._notes.newNote,
+    saveNoteState: state._notes.saveNoteState
   };
 };
 

@@ -131,7 +131,13 @@ export const saveCurrentNoteAsync = content => {
     axiosIns
       .put('/notes/' + noteId + '.json', data)
       .then(resp => {
-        dispatch(saveCurrentNoteSuccess(resp));
+        // extend animation time
+        setTimeout(() => {
+          dispatch(saveCurrentNoteSuccess(resp));
+          setTimeout(() => {
+            dispatch(saveCurrentNoteDone());
+          }, 2000);
+        }, 1000);
       })
       .catch(error => {
         console.log(error);
@@ -150,6 +156,12 @@ export const saveCurrentNoteSuccess = resp => {
   return {
     type: actionTypes.SAVE_CURRENT_NOTE_SUCCESS,
     resp: resp
+  };
+};
+
+export const saveCurrentNoteDone = () => {
+  return {
+    type: actionTypes.SAVE_CURRENT_NOTE_DONE
   };
 };
 
