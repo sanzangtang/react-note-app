@@ -9,6 +9,7 @@ import TextField from 'material-ui/TextField';
 import Save from '@material-ui/icons/Save';
 import Delete from '@material-ui/icons/Delete';
 import Tooltip from 'material-ui/Tooltip';
+import Typography from 'material-ui/Typography';
 
 const drawerWidth = 300;
 
@@ -55,15 +56,21 @@ const styles = theme => ({
   },
   deleteButton: {
     color: theme.palette.secondary.light
+  },
+  recentNotes: {
+    padding: theme.spacing.unit * 2,
+    color: theme.palette.secondary.light
   }
 });
 
 class TopBar extends Component {
   componentDidUpdate() {
     // console.log('Topbar: componentDidUpdate() ');
+    // console.log(this.props.location.pathname);
   }
 
   render() {
+    console.log('TopBar: render()');
     const { classes } = this.props;
     // topbar will render first so it does not receive currentNote
     // which is handled in Editor
@@ -110,6 +117,16 @@ class TopBar extends Component {
         </React.Fragment>
       );
     }
+
+    if (this.props.location.pathname === '/notes') {
+      titleElm = (
+        <Typography variant="headline" className={classes.recentNotes}>
+          Recent Notes
+        </Typography>
+      );
+    }
+
+    console.log(this.props.location.pathname);
 
     return (
       <AppBar className={classes.appBar}>

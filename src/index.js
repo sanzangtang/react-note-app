@@ -42,6 +42,9 @@ const theme = createMuiTheme({
       dark: '#9ea7aa',
       contrastText: '#fafafa'
     }
+  },
+  typography: {
+    fontFamily: "'Tajawal', 'Lato', 'Roboto', 'Helvetica', 'Arial', sans-serif"
   }
 });
 

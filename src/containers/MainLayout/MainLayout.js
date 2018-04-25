@@ -4,7 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import Editor from '../Editor/Editor';
 import TopBar from '../../components/TopBar/TopBar';
 import SideBar from '../../components/SideBar/SideBar';
-import StartPage from '../../components/StartPage/StartPage';
+import Dashboard from '../../components/Dashboard/Dashboard';
 import { Route, Switch } from 'react-router-dom';
 import AddButton from '../../components/AddButton/AddButton';
 
@@ -70,6 +70,7 @@ class MainLayout extends React.Component {
           onChangeTitleHandler={this._onChangeTitleHandler}
           notes={this.props.notes}
           currentNote={this.props.currentNote}
+          location={this.props.location}
         />
 
         <SideBar
@@ -93,7 +94,7 @@ class MainLayout extends React.Component {
           />
           <Route
             path={this.props.match.url}
-            render={props => <StartPage {...props} />}
+            render={props => <Dashboard {...props} notes={this.props.notes} />}
           />
         </Switch>
       </div>
