@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  notes: {},
+  notes: [],
   currentNote: null,
   ifSaveCurrentNote: false,
   newNote: null,

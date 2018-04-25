@@ -1,8 +1,9 @@
 .pell-content {
   height: calc(100vh - 150px);
   font-size: 18px;
+  text-align: left;
 }
 
-.pell-actionbar {
+/* .pell-actionbar {
   margin-top: 85px;
-}
+} */

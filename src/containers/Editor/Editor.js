@@ -16,7 +16,10 @@ const styles = theme => ({
     paddingRight: theme.spacing.unit * 3,
     position: 'relative',
     height: '100vh',
-    overflowX: 'auto'
+    overflowX: 'auto',
+    overflowY: 'hidden',
+    maxWidth: '800px',
+    margin: '0 auto'
   }
 });
 
@@ -51,12 +54,24 @@ class Editor extends Component {
   // thus, current note will not be set
   _fecthCurrentNote = () => {
     const noteId = this.props.match.params.noteId;
-    if (this.props.notes[noteId] !== undefined) {
-      const selectedNote = { ...this.props.notes[noteId], id: noteId }; // add id key
-      return selectedNote;
+
+    // redo the filter since data structure is changed
+    const selectedNote = this.props.notes.filter(note => {
+      return note.id === noteId;
+    });
+
+    if (selectedNote.length !== 0) {
+      return selectedNote[0]; // only 1 matched
     } else {
       return null;
     }
+
+    // if (this.props.notes[noteId] !== undefined) {
+    //   const selectedNote = { ...this.props.notes[noteId], id: noteId }; // add id key
+    //   return selectedNote;
+    // } else {
+    //   return null;
+    // }
   };
 
   componentDidMount() {
@@ -100,7 +115,7 @@ class Editor extends Component {
 
     return (
       <main className={classes.content}>
-        {/* <div style={{ height: '85px' }} /> */}
+        <div style={{ height: '85px' }} />
         {/* create a ref */}
         <div ref={el => (this.container = el)} />
       </main>
@@ -123,6 +138,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withStyles(styles)(
+export default withStyles(styles, { withTheme: true })(
   connect(mapStateToProps, mapDispatchToProps)(Editor)
 );

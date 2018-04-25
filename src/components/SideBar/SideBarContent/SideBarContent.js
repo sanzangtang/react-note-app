@@ -31,11 +31,11 @@ class SideBarContent extends Component {
     const { classes } = this.props;
     let listItems = null;
 
-    listItems = Object.keys(this.props.notes).map(key => {
-      const note = this.props.notes[key];
-      const CustomLink = props => <Link to={'/notes/' + key} {...props} />;
+    listItems = Object.keys(this.props.notes).map(i => {
+      const note = this.props.notes[i];
+      const CustomLink = props => <Link to={'/notes/' + note.id} {...props} />;
       return (
-        <ListItem button key={key} component={CustomLink}>
+        <ListItem button key={note.id} component={CustomLink}>
           <ListItemText primary={note.title} secondary={note.date} />
         </ListItem>
       );

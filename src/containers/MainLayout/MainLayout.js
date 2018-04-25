@@ -19,7 +19,8 @@ const styles = theme => ({
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
-    width: '100%'
+    width: '100%',
+    backgroundColor: theme.palette.background.default
   }
 });
 

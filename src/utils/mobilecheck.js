@@ -1,4 +1,4 @@
-const mobilecheck = function() {
+const mobilecheck = () => {
   var check = false;
   (function(a) {
     if (

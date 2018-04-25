@@ -14,7 +14,19 @@ export const fetchNotesAsync = (props = null) => {
     axiosIns
       .get('/notes.json')
       .then(resp => {
-        dispatch(fetchNotesSuccess(resp.data));
+        // due to firebase's nature
+        // data is ordered by date (from old to new)
+        // we want to reverse it
+        const oldNotes = resp.data;
+
+        const notes = Object.keys(oldNotes)
+          .reverse()
+          .map(key => {
+            return { ...oldNotes[key], id: key };
+          });
+
+        dispatch(fetchNotesSuccess(notes));
+
         // redirect if received props
         if (props) {
           props.history.push('/notes/' + getState()._notes.newNote.id);

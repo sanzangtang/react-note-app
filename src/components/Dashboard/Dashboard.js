@@ -64,11 +64,11 @@ const Dashboard = props => {
 
   // render when notes are fetched
   if (props.notes) {
-    cards = Object.keys(props.notes).map(key => {
-      const note = props.notes[key];
-      const CustomLink = props => <Link to={'/notes/' + key} {...props} />;
+    cards = Object.keys(props.notes).map(i => {
+      const note = props.notes[i];
+      const CustomLink = props => <Link to={'/notes/' + note.id} {...props} />;
       return (
-        <Card className={classes.card} key={key} elevation={1}>
+        <Card className={classes.card} key={note.id} elevation={1}>
           <CardContent>
             <Typography variant="headline">{note.title}</Typography>
             <Typography className={classes.noteContent}>
