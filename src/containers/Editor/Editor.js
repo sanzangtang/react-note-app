@@ -26,18 +26,18 @@ class Editor extends Component {
     // detail docs https://github.com/jaredreich/pell
     pell.init({
       element: this.container, // created by ref
-      onChange: () => {}, // do nothing
+      onChange: () => {},
       // onChange: html => this.setState({ htmlOutput: html }),
       // use css modules and this is for style customization
       classes: {
         actionbar: [
-          defaultStyles['pell-actionbar'],
-          customStyles['pell-actionbar']
+          customStyles['pell-actionbar'],
+          defaultStyles['pell-actionbar']
         ].join(' '),
         button: defaultStyles['pell-button'],
         content: [
-          defaultStyles['pell-content'],
-          customStyles['pell-content']
+          customStyles['pell-content'],
+          defaultStyles['pell-content']
         ].join(' '),
         selected: defaultStyles['pell-button-selected']
       }
@@ -100,7 +100,7 @@ class Editor extends Component {
 
     return (
       <main className={classes.content}>
-        <div style={{ height: '85px' }} />
+        {/* <div style={{ height: '85px' }} /> */}
         {/* create a ref */}
         <div ref={el => (this.container = el)} />
       </main>

@@ -33,8 +33,8 @@ class MainLayout extends React.Component {
   };
 
   _handleAddNewNote = () => {
-    // call back create a new empty note with id
-    this.props.onAddNewNote(this.props);
+    // call backend create a new empty note with id
+    this.props.onAddNewNote(this.props); // pass props for redirecting
   };
 
   _onChangeTitleHandler = event => {
@@ -53,7 +53,8 @@ class MainLayout extends React.Component {
     console.log('MainLayout: componentDidUpdate()');
 
     // solve the routing issue
-    if (this.props.location.pathname === '/notes') {
+    // fix the issue that it will be called twice
+    if (this.props.location.pathname === '/notes' && this.props.currentNote) {
       this.props.onClearCurrentNote();
     }
   }
@@ -70,7 +71,7 @@ class MainLayout extends React.Component {
           onChangeTitleHandler={this._onChangeTitleHandler}
           notes={this.props.notes}
           currentNote={this.props.currentNote}
-          location={this.props.location}
+          location={this.props.location} // for checking routes and update title
         />
 
         <SideBar
@@ -110,8 +111,7 @@ const mapStateToProps = state => {
   return {
     notes: state._notes.notes,
     currentNote: state._notes.currentNote,
-    newNote: state._notes.newNote,
-    ifNewNoteAdded: state._notes.ifNewNoteAdded
+    newNote: state._notes.newNote
   };
 };
 

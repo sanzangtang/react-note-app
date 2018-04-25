@@ -50,7 +50,7 @@ export const addNewNoteAsync = props => {
     const data = {
       title: 'untitled',
       content: '',
-      date: new Date()
+      date: new Date() // UTC
     };
     axiosIns
       .post('/notes.json', data)

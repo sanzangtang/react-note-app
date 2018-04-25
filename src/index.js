@@ -10,12 +10,10 @@ import thunk from 'redux-thunk';
 import notesReducer from './store/reducers/notes';
 import authReducer from './store/reducers/auth';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import mobilecheck from './utils/mobilecheck';
 
 // redux devtools
-const composeEnhancers =
-  process.env.NODE_ENV === 'development'
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : null || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   _notes: notesReducer,
@@ -58,5 +56,16 @@ const app = (
   </Provider>
 );
 
-ReactDOM.render(app, document.getElementById('root'));
+// the experience of using editor on mobile device is not enjoyful
+// simply disable it on all mobile devices for saving styling works
+// mobile browser checker docs:
+// https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
+const notSupported = <h1>Your Browser Is Not Supported</h1>;
+
+if (!mobilecheck()) {
+  ReactDOM.render(app, document.getElementById('root'));
+} else {
+  ReactDOM.render(notSupported, document.getElementById('root'));
+}
+
 registerServiceWorker();

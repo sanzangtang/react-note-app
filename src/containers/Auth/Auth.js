@@ -30,7 +30,7 @@ const styles = theme => ({
   image: {
     position: 'fixed',
     top: 0,
-    height: '300px',
+    height: '40%',
     width: '100%',
     backgroundImage: `url(${bg})`,
     backgroundRepeat: 'no-repeat',

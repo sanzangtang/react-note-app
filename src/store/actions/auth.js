@@ -3,6 +3,7 @@ import axiosIns from './axiosIns';
 
 // your firebase api key
 const apiKey = 'AIzaSyCrlk7RKN_0uXLVij-3Y8OrFScuK0zUlLw';
+
 const signUpUrl =
   'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' +
   apiKey;
