@@ -16,6 +16,7 @@ export const ADD_NEW_NOTE_SUCCESS = 'ADD_NEW_NOTE_SUCCESS';
 
 // delete note
 export const SET_NOTE_FOR_DELETE = 'SET_NOTE_FOR_DELETE';
+export const DELETE_NOTE_SUCCESS = 'DELETE_NOTE_SUCCESS';
 
 // fetch all notes from server
 export const FETCH_NOTES_SUCCESS = 'FETCH_NOTES_SUCCESS';

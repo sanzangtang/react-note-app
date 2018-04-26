@@ -46,7 +46,7 @@ const withError = WrappedComponent => {
           <Dialog open={this.state.open} onClose={this._handleClose}>
             <DialogTitle>
               <Error className={classes.icon} color="error" />
-              Hmm...Something didn't work...
+              {"Hmm...Something didn't work..."}
             </DialogTitle>
             <DialogContent>
               <DialogContentText>{message}</DialogContentText>

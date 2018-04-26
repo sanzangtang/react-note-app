@@ -187,3 +187,29 @@ export const setNoteForDelete = noteId => {
     noteId: noteId
   };
 };
+
+export const deleteNoteSuccess = () => {
+  return {
+    type: actionTypes.DELETE_NOTE_SUCCESS
+  };
+};
+
+export const deleteNoteAsync = props => {
+  return (dispatch, getState) => {
+    const noteId = getState()._notes.noteForDelete;
+    axiosIns
+      .delete('/notes/' + noteId + '.json')
+      .then(resp => {
+        dispatch(deleteNoteSuccess());
+        // refetch a list of notes
+        dispatch(fetchNotesAsync());
+
+        console.log(props);
+        // redirecting to dashboard
+        props.history.push('/notes');
+      })
+      .catch(error => {
+        dispatch(errorActions.setGlobalError(error));
+      });
+  };
+};

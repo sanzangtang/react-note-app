@@ -60,7 +60,9 @@ class MainLayout extends React.Component {
   };
 
   _handleDeleteNote = () => {
-    console.log('Note delete confirmed!');
+    // close snack bar immediately when clicking confirm
+    this._closeSnackBar();
+    this.props.onDeleteNote(this.props); // for redirecting
   };
 
   _onChangeTitleHandler = event => {
@@ -100,7 +102,7 @@ class MainLayout extends React.Component {
           currentNote={this.props.currentNote}
           location={this.props.location} // for checking routes and update title
           saveNoteState={this.props.saveNoteState}
-          // for handle delete notes
+          // for handle delete notes (snack bar)
           snackOpen={this.state.snackOpen}
           showConfirmDeleteNote={this._showConfirmDeleteNote} // NOT this.props!
           closeSnackBar={this._closeSnackBar}
@@ -135,7 +137,7 @@ class MainLayout extends React.Component {
               <Dashboard
                 {...props}
                 notes={this.props.notes}
-                // for handle delete notes
+                // for handle delete notes (snack bar)
                 snackOpen={this.state.snackOpen}
                 showConfirmDeleteNote={this._showConfirmDeleteNote}
                 closeSnackBar={this._closeSnackBar}
@@ -178,6 +180,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.setCurrentNote(selectedNote)),
     onSaveCurrentNote: content =>
       dispatch(actions.saveCurrentNoteAsync(content)),
+    onDeleteNote: props => dispatch(actions.deleteNoteAsync(props)),
     // for error hoc
     onClearGlobalError: () => dispatch(actions.clearGlobalError())
   };

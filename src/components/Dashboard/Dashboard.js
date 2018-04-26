@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import { Link } from 'react-router-dom';
 import sanitize from '../../utils/sanitize';
 import SnackBar from '../SnackBar/SnackBar';
@@ -55,6 +55,11 @@ const styles = theme => ({
     position: 'absolute',
     bottom: '10px',
     right: '100px'
+  },
+  media: {
+    height: 0,
+    // paddingTop: '56.25%' // 16:9
+    paddingTop: '35%'
   }
 });
 
@@ -68,8 +73,21 @@ const Dashboard = props => {
     cards = Object.keys(props.notes).map(i => {
       const note = props.notes[i];
       const CustomLink = props => <Link to={'/notes/' + note.id} {...props} />;
+
+      // match the first <img> tag
+      const imgRex = note.content.match(/<img src="([\w\W]+?)"/);
+      let imgLink = '';
+      if (imgRex) {
+        imgLink = imgRex[0].slice(9);
+      }
+
       return (
         <Card className={classes.card} key={note.id} elevation={1}>
+          {/* contionally render card media */}
+          {imgLink !== '' ? (
+            <CardMedia className={classes.media} image={imgLink} />
+          ) : null}
+
           <CardContent>
             <Typography variant="headline">{note.title}</Typography>
             <Typography className={classes.noteContent}>

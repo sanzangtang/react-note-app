@@ -4,6 +4,10 @@
   text-align: left;
 }
 
+.pell-content img {
+  width: 100%;
+}
+
 /* .pell-actionbar {
   margin-top: 85px;
 } */

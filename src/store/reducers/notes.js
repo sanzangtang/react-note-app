@@ -113,6 +113,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         noteForDelete: action.noteId
       };
+    case actionTypes.DELETE_NOTE_SUCCESS:
+      return {
+        ...state,
+        noteForDelete: null
+      };
   }
 };
 

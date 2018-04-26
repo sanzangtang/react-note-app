@@ -8,7 +8,8 @@ export {
   clearCurrentNote,
   saveCurrentNoteStart,
   saveCurrentNoteAsync,
-  setNoteForDelete
+  setNoteForDelete,
+  deleteNoteAsync
 } from './notes';
 
 export { signInAsync } from './auth';
