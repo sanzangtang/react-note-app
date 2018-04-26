@@ -7,7 +7,10 @@ export {
   updateCurrentNoteContent,
   clearCurrentNote,
   saveCurrentNoteStart,
-  saveCurrentNoteAsync
+  saveCurrentNoteAsync,
+  setNoteForDelete
 } from './notes';
 
 export { signInAsync } from './auth';
+
+export { clearGlobalError } from './error';

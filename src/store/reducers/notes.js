@@ -6,9 +6,11 @@ const initialState = {
   ifSaveCurrentNote: false,
   saveNoteState: {
     loading: false,
-    success: false
+    success: false,
+    fail: false
   },
   newNote: null,
+  noteForDelete: null,
   error: null
 };
 
@@ -106,6 +108,11 @@ const reducer = (state = initialState, action) => {
       };
     default:
       return state;
+    case actionTypes.SET_NOTE_FOR_DELETE:
+      return {
+        ...state,
+        noteForDelete: action.noteId
+      };
   }
 };
 

@@ -1,6 +1,7 @@
 // action creators
 import * as actionTypes from './actionTypes';
 import axiosIns from './axiosIns';
+import * as errorActions from './error';
 
 export const setCurrentNote = selectedNote => {
   return {
@@ -27,13 +28,14 @@ export const fetchNotesAsync = (props = null) => {
 
         dispatch(fetchNotesSuccess(notes));
 
-        // redirect if received props
+        // redirect to the new note route if received props
         if (props) {
           props.history.push('/notes/' + getState()._notes.newNote.id);
         }
       })
       .catch(error => {
-        console.log(error);
+        dispatch(errorActions.setGlobalError(error));
+        // console.log(error);
       });
   };
 };
@@ -71,10 +73,12 @@ export const addNewNoteAsync = props => {
         dispatch(addNewNoteSuccess(resp));
 
         // refetch a new list of notes
+        // and pass 'props` to indicate the action is adding a new note
         dispatch(fetchNotesAsync(props));
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
+        dispatch(errorActions.setGlobalError(error));
       });
   };
 };
@@ -140,7 +144,7 @@ export const saveCurrentNoteAsync = content => {
         }, 1000);
       })
       .catch(error => {
-        console.log(error);
+        dispatch(errorActions.setGlobalError(error));
       });
   };
 };
@@ -174,5 +178,12 @@ export const saveCurrentNoteFail = () => {
 export const clearCurrentNote = () => {
   return {
     type: actionTypes.CLEAR_CURRENT_NOTE
+  };
+};
+
+export const setNoteForDelete = noteId => {
+  return {
+    type: actionTypes.SET_NOTE_FOR_DELETE,
+    noteId: noteId
   };
 };

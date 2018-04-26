@@ -5,6 +5,7 @@ import Button from 'material-ui/Button';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import { Link } from 'react-router-dom';
 import sanitize from '../../utils/sanitize';
+import SnackBar from '../SnackBar/SnackBar';
 
 const styles = theme => ({
   content: {
@@ -90,6 +91,7 @@ const Dashboard = props => {
               size="medium"
               color="secondary"
               className={classes.deleteButton}
+              onClick={() => props.showConfirmDeleteNote(note.id)} // show snack bar and pass note id
             >
               Discard
             </Button>
@@ -100,10 +102,18 @@ const Dashboard = props => {
   }
 
   return (
-    <main className={classes.content}>
-      <div style={{ height: '85px' }} />
-      <div className={classes.cardContainer}>{cards}</div>
-    </main>
+    <React.Fragment>
+      <SnackBar
+        message={'Do you want to delete?'}
+        snackOpen={props.snackOpen}
+        closeSnack={props.closeSnackBar}
+        mainAction={props.handleDeleteNote}
+      />
+      <main className={classes.content}>
+        <div style={{ height: '85px' }} />
+        <div className={classes.cardContainer}>{cards}</div>
+      </main>
+    </React.Fragment>
   );
 };
 

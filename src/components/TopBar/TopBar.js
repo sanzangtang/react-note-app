@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -13,7 +14,7 @@ import Typography from 'material-ui/Typography';
 import { CircularProgress } from 'material-ui/Progress';
 import green from 'material-ui/colors/green';
 import Check from '@material-ui/icons/Check';
-import classNames from 'classnames';
+import SnackBar from '../SnackBar/SnackBar';
 
 const drawerWidth = 300;
 
@@ -78,7 +79,7 @@ const styles = theme => ({
     transform: 'rotateY(-180deg)'
   },
   fabProgress: {
-    color: green[300],
+    color: theme.palette.secondary.light,
     position: 'absolute',
     top: -6,
     left: -6,
@@ -87,55 +88,14 @@ const styles = theme => ({
 });
 
 class TopBar extends Component {
-  // fake
-  // state = {
-  //   loading: false,
-  //   success: false
-  // };
-
   componentDidUpdate() {
     // console.log('Topbar: componentDidUpdate() ');
     // console.log(this.props.location.pathname);
   }
 
-  // handleButtonClick = () => {
-  //   if (!this.state.loading) {
-  //     this.setState(
-  //       {
-  //         success: false,
-  //         loading: true
-  //       },
-  //       () => {
-  //         setTimeout(() => {
-  //           this.setState(
-  //             {
-  //               loading: false,
-  //               success: true
-  //             },
-  //             () => {
-  //               setTimeout(() => {
-  //                 this.setState({
-  //                   loading: false,
-  //                   success: false
-  //                 });
-  //               }, 2000);
-  //             }
-  //           );
-  //         }, 1000);
-  //       }
-  //     );
-  //   }
-  // };
-
   render() {
     console.log('TopBar: render()');
     const { classes } = this.props;
-
-    // change button class based on state
-    const { loading, success } = this.props.saveNoteState;
-    const buttonClassname = classNames([classes.saveButton], {
-      [classes.buttonSuccess]: success
-    });
 
     // topbar will render first so it does not receive currentNote
     // which is handled in Editor
@@ -164,22 +124,40 @@ class TopBar extends Component {
         />
       );
 
+      // change button class based on state
+      const { loading, success } = this.props.saveNoteState;
+      const buttonClassname = classNames([classes.saveButton], {
+        [classes.buttonSuccess]: success
+      });
+
       actionButtons = (
         <React.Fragment>
+          {/* delete button */}
           <Tooltip title="Delete">
-            <IconButton className={classes.deleteButton}>
+            <IconButton
+              onClick={
+                () =>
+                  this.props.showConfirmDeleteNote(this.props.currentNote.id) // pass current note id
+              }
+              className={classes.deleteButton}
+            >
               <Delete />
             </IconButton>
           </Tooltip>
+
+          {/* save button */}
           <Tooltip title="Save">
             <IconButton
               onClick={this.props.handleSaveCurrentNote}
-              // onClick={this.handleButtonClick}
               className={buttonClassname}
             >
               {success ? <Check className={classes.checkIcon} /> : <Save />}
               {loading && (
-                <CircularProgress size={59} className={classes.fabProgress} />
+                <CircularProgress
+                  size={59}
+                  thickness={2.5}
+                  className={classes.fabProgress}
+                />
               )}
             </IconButton>
           </Tooltip>
@@ -198,20 +176,28 @@ class TopBar extends Component {
     console.log(this.props.location.pathname);
 
     return (
-      <AppBar className={classes.appBar}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={this.props.handleDrawerToggle} // toggle open and close side drawer
-            className={classes.iconButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          {titleElm}
-          {actionButtons}
-        </Toolbar>
-      </AppBar>
+      <React.Fragment>
+        <SnackBar
+          message={'Do you want to delete?'}
+          snackOpen={this.props.snackOpen}
+          closeSnack={this.props.closeSnackBar}
+          mainAction={this.props.handleDeleteNote}
+        />
+        <AppBar className={classes.appBar}>
+          <Toolbar className={classes.toolbar}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={this.props.handleDrawerToggle} // toggle open and close side drawer
+              className={classes.iconButton}
+            >
+              <MenuIcon />
+            </IconButton>
+            {titleElm}
+            {actionButtons}
+          </Toolbar>
+        </AppBar>
+      </React.Fragment>
     );
   }
 }

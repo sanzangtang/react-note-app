@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Editor from '../Editor/Editor';
+import Editor from '../../components/Editor/Editor';
 import TopBar from '../../components/TopBar/TopBar';
 import SideBar from '../../components/SideBar/SideBar';
 import Dashboard from '../../components/Dashboard/Dashboard';
@@ -11,6 +11,9 @@ import AddButton from '../../components/AddButton/AddButton';
 // redux
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
+
+// hoc
+import withError from '../../hoc/withError';
 
 const styles = theme => ({
   root: {
@@ -26,7 +29,8 @@ const styles = theme => ({
 
 class MainLayout extends React.Component {
   state = {
-    mobileOpen: false
+    mobileOpen: false,
+    snackOpen: false
   };
 
   _handleDrawerToggle = () => {
@@ -36,6 +40,27 @@ class MainLayout extends React.Component {
   _handleAddNewNote = () => {
     // call backend create a new empty note with id
     this.props.onAddNewNote(this.props); // pass props for redirecting
+  };
+
+  _openSnackBar = () => {
+    this.setState({ snackOpen: true });
+  };
+
+  _closeSnackBar = () => {
+    this.setState({ snackOpen: false });
+  };
+
+  _showConfirmDeleteNote = noteId => {
+    // show snack bar
+    this._openSnackBar();
+
+    // in the dashboard we get note id back when button is clicked
+    // this is handled similarily when deleting note inside a note
+    this.props.onSetNoteForDelete(noteId);
+  };
+
+  _handleDeleteNote = () => {
+    console.log('Note delete confirmed!');
   };
 
   _onChangeTitleHandler = event => {
@@ -53,6 +78,7 @@ class MainLayout extends React.Component {
   componentDidUpdate(prevProps) {
     console.log('MainLayout: componentDidUpdate()');
 
+    // clear current note
     // solve the routing issue
     // fix the issue that it will be called twice
     if (this.props.location.pathname === '/notes' && this.props.currentNote) {
@@ -74,6 +100,11 @@ class MainLayout extends React.Component {
           currentNote={this.props.currentNote}
           location={this.props.location} // for checking routes and update title
           saveNoteState={this.props.saveNoteState}
+          // for handle delete notes
+          snackOpen={this.state.snackOpen}
+          showConfirmDeleteNote={this._showConfirmDeleteNote} // NOT this.props!
+          closeSnackBar={this._closeSnackBar}
+          handleDeleteNote={this._handleDeleteNote}
         />
 
         <SideBar
@@ -90,14 +121,27 @@ class MainLayout extends React.Component {
             render={props => (
               <Editor
                 {...props}
+                onSetCurrentNote={this.props.onSetCurrentNote}
+                onSaveCurrentNote={this.props.onSaveCurrentNote}
+                ifSaveCurrentNote={this.props.ifSaveCurrentNote}
                 notes={this.props.notes}
-                clearAddNewNote={this.props.onClearAddNewNote}
+                // clearAddNewNote={this.props.onClearAddNewNote}
               />
             )} // pass notes down
           />
           <Route
             path={this.props.match.url}
-            render={props => <Dashboard {...props} notes={this.props.notes} />}
+            render={props => (
+              <Dashboard
+                {...props}
+                notes={this.props.notes}
+                // for handle delete notes
+                snackOpen={this.state.snackOpen}
+                showConfirmDeleteNote={this._showConfirmDeleteNote}
+                closeSnackBar={this._closeSnackBar}
+                handleDeleteNote={this._handleDeleteNote}
+              />
+            )}
           />
         </Switch>
       </div>
@@ -113,8 +157,10 @@ const mapStateToProps = state => {
   return {
     notes: state._notes.notes,
     currentNote: state._notes.currentNote,
-    newNote: state._notes.newNote,
-    saveNoteState: state._notes.saveNoteState
+    // newNote: state._notes.newNote,
+    saveNoteState: state._notes.saveNoteState,
+    ifSaveCurrentNote: state._notes.ifSaveCurrentNote,
+    error: state._error.gError
   };
 };
 
@@ -126,11 +172,18 @@ const mapDispatchToProps = dispatch => {
     onUpdateCurrentNoteTitle: title =>
       dispatch(actions.updateCurrentNoteTitle(title)),
     onClearCurrentNote: () => dispatch(actions.clearCurrentNote()),
-    onSaveCurrentNoteStart: () => dispatch(actions.saveCurrentNoteStart())
+    onSaveCurrentNoteStart: () => dispatch(actions.saveCurrentNoteStart()),
+    onSetNoteForDelete: noteId => dispatch(actions.setNoteForDelete(noteId)),
+    onSetCurrentNote: selectedNote =>
+      dispatch(actions.setCurrentNote(selectedNote)),
+    onSaveCurrentNote: content =>
+      dispatch(actions.saveCurrentNoteAsync(content)),
+    // for error hoc
+    onClearGlobalError: () => dispatch(actions.clearGlobalError())
   };
 };
 
 // redux connect
-export default withStyles(styles)(
-  connect(mapStateToProps, mapDispatchToProps)(MainLayout)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles, { withTheme: true })(withError(MainLayout))
 );

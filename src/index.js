@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import notesReducer from './store/reducers/notes';
 import authReducer from './store/reducers/auth';
+import errorReducer from './store/reducers/error';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import mobilecheck from './utils/mobilecheck';
 
@@ -17,7 +18,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   _notes: notesReducer,
-  _auth: authReducer
+  _auth: authReducer,
+  _error: errorReducer
 });
 
 const store = createStore(
