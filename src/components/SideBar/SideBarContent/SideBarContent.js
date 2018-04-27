@@ -66,4 +66,4 @@ SideBarContent.propTypes = {
 };
 
 // keep withRouter here for now
-export default withStyles(styles)(withRouter(SideBarContent));
+export default withStyles(styles)(SideBarContent);

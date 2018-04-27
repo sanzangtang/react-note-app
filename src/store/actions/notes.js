@@ -12,8 +12,12 @@ export const setCurrentNote = selectedNote => {
 
 export const fetchNotesAsync = (props = null) => {
   return (dispatch, getState) => {
+    const uid = getState()._auth.uid;
+    const idToken = getState()._auth.idToken;
+
     axiosIns
-      .get('/notes.json')
+      // .get('/notes.json')
+      .get(`/users/${uid}/notes.json?auth=${idToken}`)
       .then(resp => {
         // due to firebase's nature
         // data is ordered by date (from old to new)
@@ -66,8 +70,13 @@ export const addNewNoteAsync = props => {
       content: '',
       date: new Date() // UTC
     };
+
+    const uid = getState()._auth.uid;
+    const idToken = getState()._auth.idToken;
+
     axiosIns
-      .post('/notes.json', data)
+      // .post('/notes.json', data)
+      .post(`/users/${uid}/notes.json?auth=${idToken}`, data)
       .then(resp => {
         // get response from server
         dispatch(addNewNoteSuccess(resp));
@@ -132,8 +141,12 @@ export const saveCurrentNoteAsync = content => {
       date: note.date
     };
 
+    const uid = getState()._auth.uid;
+    const idToken = getState()._auth.idToken;
+
     axiosIns
-      .put('/notes/' + noteId + '.json', data)
+      // .put('/notes/' + noteId + '.json', data)
+      .put(`/users/${uid}/notes/${noteId}.json?auth=${idToken}`, data)
       .then(resp => {
         // extend animation time
         setTimeout(() => {
@@ -197,8 +210,12 @@ export const deleteNoteSuccess = () => {
 export const deleteNoteAsync = props => {
   return (dispatch, getState) => {
     const noteId = getState()._notes.noteForDelete;
+    const uid = getState()._auth.uid;
+    const idToken = getState()._auth.idToken;
+
     axiosIns
-      .delete('/notes/' + noteId + '.json')
+      // .delete('/notes/' + noteId + '.json')
+      .delete(`/users/${uid}/notes/${noteId}.json?auth=${idToken}`)
       .then(resp => {
         dispatch(deleteNoteSuccess());
         // refetch a list of notes

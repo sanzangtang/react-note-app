@@ -93,7 +93,7 @@ class Main extends React.Component {
     if (this.props.loading) {
       setTimeout(() => {
         this.props.onClearGlobalLoading();
-      }, 1500); // extends animation time here (to deceive user)
+      }, 0); // extends animation time here (to deceive user)
     }
   }
 
@@ -124,6 +124,7 @@ class Main extends React.Component {
             handleDrawerToggle={this._handleDrawerToggle}
             mobileOpen={this.state.mobileOpen}
             notes={this.props.notes}
+            onLogout={this.props.onLogout}
           />
 
           <Switch>
@@ -197,7 +198,8 @@ const mapDispatchToProps = dispatch => {
     // for error hoc
     onClearGlobalError: () => dispatch(actions.clearGlobalError()),
     // for loading
-    onClearGlobalLoading: () => dispatch(actions.clearGlobalLoading())
+    onClearGlobalLoading: () => dispatch(actions.clearGlobalLoading()),
+    onLogout: () => dispatch(actions.clearAuthStateAndStorage())
   };
 };
 

@@ -5,6 +5,10 @@ import Drawer from 'material-ui/Drawer';
 import Hidden from 'material-ui/Hidden';
 import SideBarContent from './SideBarContent/SideBarContent';
 import Avatar from 'material-ui/Avatar';
+import UserMenu from '../UserMenu/UserMenu';
+import Typography from 'material-ui/Typography';
+import Divider from 'material-ui/Divider';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 300;
 
@@ -16,16 +20,35 @@ const styles = theme => ({
     }
   },
   topFixed: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
     position: 'fixed',
     backgroundColor: theme.palette.secondary.main,
     width: '300.6px', // fix the gap
     boxSizing: 'border-box',
     zIndex: 1
+    // display: 'flex'
+  },
+  user: {
+    display: 'flex',
+    paddingTop: theme.spacing.unit * 2
   },
   avatar: {
     width: '60px',
-    height: '60px'
+    height: '60px',
+    boxShadow: theme.shadows[2]
+  },
+  menu: {
+    marginTop: theme.spacing.unit * 2,
+    marginLeft: theme.spacing.unit * 4
+  },
+  appTitle: {
+    color: theme.palette.primary.contrastText,
+    textDecoration: 'none',
+    '&:hover': {
+      color: theme.palette.primary.dark,
+      textDecoration: 'underline'
+    },
+    transition: 'all 0.2s linear'
   }
 });
 
@@ -35,17 +58,28 @@ const SideBar = props => {
   // pass down again
   const notesList = (
     <div>
-      <div style={{ height: '100px' }} />
+      <div style={{ height: '140px' }} />
       <SideBarContent notes={props.notes} />
     </div>
   );
 
   const userInfo = (
     <div className={classes.topFixed}>
-      <Avatar
-        src={require('../../assets/boy.png')}
-        className={classes.avatar}
-      />
+      <Typography variant="headline" gutterBottom>
+        <Link className={classes.appTitle} to="/notes">
+          Cool Note
+        </Link>
+      </Typography>
+
+      <Divider />
+
+      <div className={classes.user}>
+        <Avatar
+          src={require('../../assets/boy.png')}
+          className={classes.avatar}
+        />
+        <UserMenu onLogout={props.onLogout} className={classes.menu} />
+      </div>
     </div>
   );
 
