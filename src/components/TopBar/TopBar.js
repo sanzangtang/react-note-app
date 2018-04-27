@@ -182,6 +182,7 @@ class TopBar extends Component {
           snackOpen={this.props.snackOpen}
           closeSnack={this.props.closeSnackBar}
           mainAction={this.props.handleDeleteNote}
+          ifAutoHide
         />
         <AppBar className={classes.appBar}>
           <Toolbar className={classes.toolbar}>

@@ -84,6 +84,15 @@ class Auth extends Component {
     }
   };
 
+  componentDidMount() {
+    console.log('Auth: componentDidMount()');
+    this.props.onSetGlobalLoading();
+  }
+
+  componentDidUpdate() {
+    console.log('Auth: componentDidUpdate()');
+  }
+
   _handleSwitchMode = () => {
     this.setState({ ifSignInMode: !this.state.ifSignInMode });
   };
@@ -173,7 +182,6 @@ class Auth extends Component {
 
         <Grid container>
           <Grid item xs={1} sm={2} md={3} lg={4} />
-
           <Grid item xs={10} sm={8} md={6} lg={4}>
             <Paper className={classes.paper} elevation={1}>
               <div className={classes.banner}>
@@ -206,7 +214,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onSignIn: (userData, props) =>
       dispatch(actions.signInAsync(userData, props)),
-    onClearGlobalError: () => dispatch(actions.clearGlobalError())
+    onClearGlobalError: () => dispatch(actions.clearGlobalError()),
+    onSetGlobalLoading: () => dispatch(actions.setGlobalLoading()) // for login loading
   };
 };
 

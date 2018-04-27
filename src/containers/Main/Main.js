@@ -93,7 +93,7 @@ class Main extends React.Component {
     if (this.props.loading) {
       setTimeout(() => {
         this.props.onClearGlobalLoading();
-      }, 0); // extends animation time here (to deceive user)
+      }, 1500); // extends animation time here (to deceive user)
     }
   }
 

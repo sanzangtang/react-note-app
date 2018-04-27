@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 const styles = theme => ({
   root: {
@@ -36,7 +37,10 @@ class SideBarContent extends Component {
       const CustomLink = props => <Link to={'/notes/' + note.id} {...props} />;
       return (
         <ListItem button key={note.id} component={CustomLink}>
-          <ListItemText primary={note.title} secondary={note.date} />
+          <ListItemText
+            primary={note.title}
+            secondary={moment(note.date).fromNow()}
+          />
         </ListItem>
       );
     });

@@ -17,6 +17,7 @@ const styles = theme => ({
   }
 });
 
+// could be stateless
 class SnackBar extends React.Component {
   render() {
     const { classes } = this.props;
@@ -28,19 +29,22 @@ class SnackBar extends React.Component {
             horizontal: 'center'
           }}
           open={this.props.snackOpen}
-          autoHideDuration={3000}
+          autoHideDuration={this.props.ifAutoHide ? 4000 : null}
           onClose={this.props.closeSnack}
           message={<span>{this.props.message}</span>}
           action={[
-            <Button
-              className={classes.button}
-              key="main-button"
-              color="secondary"
-              size="medium"
-              onClick={this.props.mainAction}
-            >
-              CONFIRM
-            </Button>,
+            // if main action is passed
+            this.props.mainAction && (
+              <Button
+                className={classes.button}
+                key="main-button"
+                color="secondary"
+                size="medium"
+                onClick={this.props.mainAction}
+              >
+                CONFIRM
+              </Button>
+            ),
             <IconButton
               key="close-button"
               className={classes.close}
@@ -59,8 +63,9 @@ SnackBar.propTypes = {
   classes: PropTypes.object.isRequired,
   snackOpen: PropTypes.bool, // if open or not
   message: PropTypes.string, // message for display
-  mainAction: PropTypes.func.isRequired, // main button
-  closeSnack: PropTypes.func // close snack func
+  mainAction: PropTypes.func, // main button
+  closeSnack: PropTypes.func.isRequired, // close snack func
+  ifAutoHide: PropTypes.bool
 };
 
 export default withStyles(styles)(SnackBar);

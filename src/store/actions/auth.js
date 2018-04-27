@@ -18,20 +18,20 @@ export const signInStart = () => {
   };
 };
 
-export const signInSuccess = (resp, data) => {
-  return {
-    type: actionTypes.SIGN_IN_SUCCESS,
-    resp: resp,
-    data: data
-  };
-};
+// export const signInSuccess = (resp, data) => {
+//   return {
+//     type: actionTypes.SIGN_IN_SUCCESS,
+//     resp: resp,
+//     data: data
+//   };
+// };
 
-export const signInFail = error => {
-  return {
-    type: actionTypes.SIGN_IN_FAIL,
-    error: error
-  };
-};
+// export const signInFail = error => {
+//   return {
+//     type: actionTypes.SIGN_IN_FAIL,
+//     error: error
+//   };
+// };
 
 export const signInAsync = (userData, props) => {
   return (dispatch, getState) => {
