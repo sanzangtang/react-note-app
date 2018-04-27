@@ -19,7 +19,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
     position: 'fixed',
     backgroundColor: theme.palette.secondary.main,
-    width: '300px',
+    width: '300.6px', // fix the gap
     boxSizing: 'border-box',
     zIndex: 1
   },
@@ -30,7 +30,7 @@ const styles = theme => ({
 });
 
 const SideBar = props => {
-  const { classes, theme } = props;
+  const { classes } = props;
 
   // pass down again
   const notesList = (
@@ -55,7 +55,7 @@ const SideBar = props => {
         {/* for mobile drawer with a backdrop modal */}
         <Drawer
           variant="temporary"
-          anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+          anchor="left"
           open={props.mobileOpen}
           onClose={props.handleDrawerToggle}
           classes={{
@@ -87,8 +87,7 @@ const SideBar = props => {
 };
 
 SideBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(SideBar);
+export default withStyles(styles)(SideBar);

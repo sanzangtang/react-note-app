@@ -65,7 +65,7 @@ const styles = theme => ({
   },
   recentNotes: {
     padding: theme.spacing.unit * 2,
-    color: theme.palette.secondary.light
+    color: theme.palette.secondary.contrastText
   },
   // button animation
   buttonSuccess: {
@@ -206,4 +206,4 @@ TopBar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(TopBar);
+export default withStyles(styles)(TopBar);

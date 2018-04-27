@@ -3,15 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import mobilecheck from './utils/mobilecheck';
 import { BrowserRouter } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+
+// redux and reducers
 import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import notesReducer from './store/reducers/notes';
 import authReducer from './store/reducers/auth';
 import errorReducer from './store/reducers/error';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import mobilecheck from './utils/mobilecheck';
 
 // redux devtools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -28,7 +30,7 @@ const store = createStore(
 );
 
 // define theme
-const theme = createMuiTheme({
+const lighttheme = createMuiTheme({
   palette: {
     primary: {
       light: '#c3fdff',
@@ -48,9 +50,29 @@ const theme = createMuiTheme({
   }
 });
 
+const darktheme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#62727b',
+      main: '#37474f',
+      dark: '#102027',
+      contrastText: '#ffffff'
+    },
+    secondary: {
+      light: '#6d6d6d',
+      main: '#424242',
+      dark: '#1b1b1b',
+      contrastText: '#ffffff'
+    }
+  },
+  typography: {
+    fontFamily: "'Tajawal', 'Lato', 'Roboto', 'Helvetica', 'Arial', sans-serif"
+  }
+});
+
 const app = (
   <Provider store={store}>
-    <MuiThemeProvider theme={theme}>
+    <MuiThemeProvider theme={lighttheme}>
       <BrowserRouter>
         <App />
       </BrowserRouter>

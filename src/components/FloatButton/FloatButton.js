@@ -10,11 +10,11 @@ const styles = theme => ({
     zIndex: 1500,
     position: 'fixed',
     bottom: theme.spacing.unit * 3,
-    right: theme.spacing.unit * 3,
-    backgroundColor: theme.palette.secondary.main
+    right: theme.spacing.unit * 3
+    // backgroundColor: theme.palette.secondary.main
   },
   icon: {
-    color: theme.palette.secondary.light
+    color: theme.palette.secondary.contrastText
   }
 });
 
@@ -26,6 +26,7 @@ function AddButton(props) {
         variant="fab"
         className={classes.button}
         onClick={props.handleAddNewNote}
+        color="primary"
       >
         <AddIcon className={classes.icon} />
       </Button>
@@ -37,4 +38,4 @@ AddButton.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(AddButton);
+export default withStyles(styles)(AddButton);

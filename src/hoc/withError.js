@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Dialog, {
   DialogActions,
@@ -9,17 +10,10 @@ import Dialog, {
 import { withStyles } from 'material-ui/styles';
 import Error from '@material-ui/icons/ErrorOutline';
 
-const styles = theme => ({
-  root: {},
-  icon: {
-    paddingRight: theme.spacing.unit * 2
-  }
-});
-
 // when wrapped component is connected (also wrapped) to redux
 // WithError will have all props that wrapped component has
 // it sounds interesting
-const withError = WrappedComponent => {
+const withError = (WrappedComponent, styles, errorMessage = null) => {
   class WithError extends Component {
     state = {
       open: false
@@ -31,21 +25,31 @@ const withError = WrappedComponent => {
       this.props.onClearGlobalError();
     };
 
-    render() {
-      const { classes, error } = this.props;
+    componentDidMount() {}
 
-      let dialog = null;
-
-      if (error && !this.state.open) {
+    componentDidUpdate() {
+      if (this.props.error && !this.state.open) {
         this.setState({ open: true });
       }
+    }
 
-      if (error) {
-        const message = `${error.message}`;
+    render() {
+      let dialog = null;
+
+      if (this.props.error) {
+        // check customized error message or set at default
+        const message = errorMessage ? errorMessage : this.props.error.message;
+
         dialog = (
           <Dialog open={this.state.open} onClose={this._handleClose}>
             <DialogTitle>
-              <Error className={classes.icon} color="error" />
+              <Error
+                // inline styles here
+                style={{
+                  paddingRight: this.props.theme.spacing.unit * 2
+                }}
+                color="error"
+              />
               {"Hmm...Something didn't work..."}
             </DialogTitle>
             <DialogContent>
@@ -68,6 +72,11 @@ const withError = WrappedComponent => {
       );
     }
   }
+
+  WithError.propTypes = {
+    error: PropTypes.object,
+    onClearGlobalError: PropTypes.func.isRequired
+  };
 
   // return react component
   return withStyles(styles, { withTheme: true })(WithError);

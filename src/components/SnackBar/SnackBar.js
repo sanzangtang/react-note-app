@@ -9,7 +9,11 @@ import CloseIcon from '@material-ui/icons/Close';
 const styles = theme => ({
   close: {
     width: theme.spacing.unit * 4,
-    height: theme.spacing.unit * 4
+    height: theme.spacing.unit * 4,
+    color: theme.palette.secondary.contrastText
+  },
+  button: {
+    color: theme.palette.primary.contrastText
   }
 });
 
@@ -29,6 +33,7 @@ class SnackBar extends React.Component {
           message={<span>{this.props.message}</span>}
           action={[
             <Button
+              className={classes.button}
               key="main-button"
               color="secondary"
               size="medium"
@@ -38,7 +43,6 @@ class SnackBar extends React.Component {
             </Button>,
             <IconButton
               key="close-button"
-              color="secondary"
               className={classes.close}
               onClick={this.props.closeSnack}
             >
@@ -59,4 +63,4 @@ SnackBar.propTypes = {
   closeSnack: PropTypes.func // close snack func
 };
 
-export default withStyles(styles, { withTheme: true })(SnackBar);
+export default withStyles(styles)(SnackBar);

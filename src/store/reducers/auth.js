@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   idToken: null,
   uid: null,
-  expiresIn: null,
+  expiresDate: null,
   resp: null,
   error: null
 };
@@ -16,7 +16,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         idToken: null,
         uid: null,
-        expiresIn: null,
         resp: null,
         error: null
       };
@@ -24,14 +23,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         resp: action.resp,
-        idToken: action.resp.data.idToken,
-        uid: action.resp.data.localId,
-        expiresIn: action.resp.data.expiresIn
+        idToken: action.data.idToken,
+        uid: action.data.uid,
+        expiresDate: action.data.expiresDate
       };
     case actionTypes.SIGN_IN_FAIL:
       return {
         ...state,
         error: action.error
+      };
+    case actionTypes.CHECK_AUTH_STATE:
+      return {
+        ...state
       };
     default:
       return state;

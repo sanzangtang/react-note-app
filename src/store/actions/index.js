@@ -12,6 +12,6 @@ export {
   deleteNoteAsync
 } from './notes';
 
-export { signInAsync } from './auth';
+export { signInAsync, checkAuthState } from './auth';
 
 export { clearGlobalError } from './error';

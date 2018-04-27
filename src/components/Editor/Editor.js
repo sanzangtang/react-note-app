@@ -146,4 +146,4 @@ Editor.propTypes = {
   ifSaveCurrentNote: PropTypes.bool
 };
 
-export default withStyles(styles, { withTheme: true })(Editor);
+export default withStyles(styles)(Editor);

@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
 import Editor from '../../components/Editor/Editor';
 import TopBar from '../../components/TopBar/TopBar';
 import SideBar from '../../components/SideBar/SideBar';
 import Dashboard from '../../components/Dashboard/Dashboard';
 import { Route, Switch } from 'react-router-dom';
-import AddButton from '../../components/AddButton/AddButton';
+import FloatButton from '../../components/FloatButton/FloatButton';
 
 // redux
 import { connect } from 'react-redux';
@@ -27,7 +26,7 @@ const styles = theme => ({
   }
 });
 
-class MainLayout extends React.Component {
+class Main extends React.Component {
   state = {
     mobileOpen: false,
     snackOpen: false
@@ -93,7 +92,7 @@ class MainLayout extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AddButton handleAddNewNote={this._handleAddNewNote} />
+        <FloatButton handleAddNewNote={this._handleAddNewNote} />
         <TopBar
           handleDrawerToggle={this._handleDrawerToggle}
           handleSaveCurrentNote={this.props.onSaveCurrentNoteStart}
@@ -122,7 +121,7 @@ class MainLayout extends React.Component {
             exact
             render={props => (
               <Editor
-                {...props}
+                {...props} // router props
                 onSetCurrentNote={this.props.onSetCurrentNote}
                 onSaveCurrentNote={this.props.onSaveCurrentNote}
                 ifSaveCurrentNote={this.props.ifSaveCurrentNote}
@@ -132,7 +131,7 @@ class MainLayout extends React.Component {
             )} // pass notes down
           />
           <Route
-            path={this.props.match.url}
+            path={this.props.match.url} // path: /notes
             render={props => (
               <Dashboard
                 {...props}
@@ -151,7 +150,7 @@ class MainLayout extends React.Component {
   }
 }
 
-MainLayout.propTypes = {
+Main.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
@@ -188,5 +187,5 @@ const mapDispatchToProps = dispatch => {
 
 // redux connect
 export default connect(mapStateToProps, mapDispatchToProps)(
-  withStyles(styles, { withTheme: true })(withError(MainLayout))
+  withError(Main, styles)
 );

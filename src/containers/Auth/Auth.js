@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
@@ -17,6 +16,9 @@ import bg from '../../assets/bg.jpg';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 
+// hoc
+import withError from '../../hoc/withError';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -32,6 +34,7 @@ const styles = theme => ({
     top: 0,
     height: '40%',
     width: '100%',
+    minHeight: '400px',
     backgroundImage: `url(${bg})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
@@ -53,7 +56,7 @@ const styles = theme => ({
     bottom: 0,
     padding: theme.spacing.unit * 4,
     verticalAlign: 'bottom',
-    color: theme.palette.secondary.light
+    color: theme.palette.secondary.contrastText
   },
   signIn: {
     width: '100px',
@@ -68,20 +71,17 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'flex-end',
     marginTop: theme.spacing.unit * 2
-  },
-  error: {
-    color: theme.palette.error.light
   }
 });
 
 class Auth extends Component {
+  // internal state is fair
   state = {
     ifSignInMode: true,
     loginForm: {
       email: null,
       password: null
-    },
-    error: false // fake
+    }
   };
 
   _handleSwitchMode = () => {
@@ -100,7 +100,7 @@ class Auth extends Component {
 
   _handleFormSubmit = event => {
     event.preventDefault();
-    this.props.onSignIn(this.state.loginForm);
+    this.props.onSignIn(this.state.loginForm, this.props); // pass props for redirecting
   };
 
   _checkFormValidation = () => {
@@ -109,11 +109,6 @@ class Auth extends Component {
 
   render() {
     const { classes } = this.props;
-
-    let errorMsg = null;
-    if (this.state.error) {
-      errorMsg = <span className={classes.error}>Some error message here</span>;
-    }
 
     let form = (
       <form className={classes.form} onSubmit={this._handleFormSubmit}>
@@ -186,7 +181,7 @@ class Auth extends Component {
                   WELCOME!
                 </Typography>
               </div>
-              {errorMsg}
+              {/* {errorMsg} */}
               {form}
             </Paper>
           </Grid>
@@ -201,12 +196,24 @@ Auth.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    onSignIn: userData => dispatch(actions.signInAsync(userData))
+    error: state._error.gError
   };
 };
 
-export default withStyles(styles, { withTheme: true })(
-  connect(null, mapDispatchToProps)(Auth)
+const mapDispatchToProps = dispatch => {
+  return {
+    onSignIn: (userData, props) =>
+      dispatch(actions.signInAsync(userData, props)),
+    onClearGlobalError: () => dispatch(actions.clearGlobalError())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withError(
+    Auth,
+    styles,
+    'Email does not exist or password is wrong, please try again.'
+  )
 );
