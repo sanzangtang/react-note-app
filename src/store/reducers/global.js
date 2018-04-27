@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  gError: null
+  gError: null,
+  gLoading: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,6 +16,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         gError: null
+      };
+    case actionTypes.SET_GLOBAL_LOADING:
+      return {
+        ...state,
+        gLoading: true
+      };
+    case actionTypes.CLEAR_GLOBAL_LOADING:
+      return {
+        ...state,
+        gLoading: false
       };
     default:
       return state;

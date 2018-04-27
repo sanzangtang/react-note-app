@@ -13,7 +13,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import notesReducer from './store/reducers/notes';
 import authReducer from './store/reducers/auth';
-import errorReducer from './store/reducers/error';
+import globalReducer from './store/reducers/global';
 
 // redux devtools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -21,7 +21,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
   _notes: notesReducer,
   _auth: authReducer,
-  _error: errorReducer
+  _global: globalReducer
 });
 
 const store = createStore(

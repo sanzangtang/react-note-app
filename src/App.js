@@ -14,7 +14,12 @@ class App extends Component {
   componentDidMount() {
     console.log('App: componentDidMount()');
     // check auth state when page refreshes
+    this.props.onSetGlobalLoading();
     this.props.onCheckAuthState();
+  }
+
+  componentDidUpdate() {
+    console.log('App: componentDidUpdate()');
   }
 
   render() {
@@ -51,7 +56,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onCheckAuthState: () => dispatch(actions.checkAuthStateAsync())
+    onCheckAuthState: () => dispatch(actions.checkAuthStateAsync()),
+    onSetGlobalLoading: () => dispatch(actions.setGlobalLoading())
   };
 };
 

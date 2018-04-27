@@ -14,4 +14,8 @@ export {
 
 export { signInAsync, checkAuthStateAsync } from './auth';
 
-export { clearGlobalError } from './error';
+export {
+  clearGlobalError,
+  setGlobalLoading,
+  clearGlobalLoading
+} from './global';

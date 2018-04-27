@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axiosIns from './axiosIns';
-import * as errorActions from './error';
+import * as globalActions from './global';
 
 // your firebase api key
 const apiKey = 'AIzaSyCrlk7RKN_0uXLVij-3Y8OrFScuK0zUlLw';
@@ -72,7 +72,7 @@ export const signInAsync = (userData, props) => {
       })
       .catch(error => {
         console.log(error);
-        dispatch(errorActions.setGlobalError(error));
+        dispatch(globalActions.setGlobalError(error));
       });
   };
 };

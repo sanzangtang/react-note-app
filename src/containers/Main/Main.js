@@ -6,6 +6,7 @@ import SideBar from '../../components/SideBar/SideBar';
 import Dashboard from '../../components/Dashboard/Dashboard';
 import { Route, Switch } from 'react-router-dom';
 import FloatButton from '../../components/FloatButton/FloatButton';
+import Loading from '../../components/Loading/Loading';
 
 // redux
 import { connect } from 'react-redux';
@@ -85,67 +86,79 @@ class Main extends React.Component {
     if (this.props.location.pathname === '/notes' && this.props.currentNote) {
       this.props.onClearCurrentNote();
     }
+
+    // loading starts when App mounts
+    // last stage of Main component
+    // clear loading state
+    if (this.props.loading) {
+      setTimeout(() => {
+        this.props.onClearGlobalLoading();
+      }, 1500); // extends animation time here (to deceive user)
+    }
   }
 
   render() {
     const { classes } = this.props;
 
     return (
-      <div className={classes.root}>
-        <FloatButton handleAddNewNote={this._handleAddNewNote} />
-        <TopBar
-          handleDrawerToggle={this._handleDrawerToggle}
-          handleSaveCurrentNote={this.props.onSaveCurrentNoteStart}
-          onChangeTitleHandler={this._onChangeTitleHandler}
-          notes={this.props.notes}
-          currentNote={this.props.currentNote}
-          location={this.props.location} // for checking routes and update title
-          saveNoteState={this.props.saveNoteState}
-          // for handle delete notes (snack bar)
-          snackOpen={this.state.snackOpen}
-          showConfirmDeleteNote={this._showConfirmDeleteNote} // NOT this.props!
-          closeSnackBar={this._closeSnackBar}
-          handleDeleteNote={this._handleDeleteNote}
-        />
-
-        <SideBar
-          handleDrawerToggle={this._handleDrawerToggle}
-          mobileOpen={this.state.mobileOpen}
-          notes={this.props.notes}
-        />
-
-        <Switch>
-          {/* nested route */}
-          <Route
-            path={this.props.match.url + '/:noteId'} // full path: /notes/:noteID
-            exact
-            render={props => (
-              <Editor
-                {...props} // router props
-                onSetCurrentNote={this.props.onSetCurrentNote}
-                onSaveCurrentNote={this.props.onSaveCurrentNote}
-                ifSaveCurrentNote={this.props.ifSaveCurrentNote}
-                notes={this.props.notes}
-                // clearAddNewNote={this.props.onClearAddNewNote}
-              />
-            )} // pass notes down
+      <React.Fragment>
+        <Loading loading={this.props.loading} />
+        <div className={classes.root}>
+          <FloatButton handleAddNewNote={this._handleAddNewNote} />
+          <TopBar
+            handleDrawerToggle={this._handleDrawerToggle}
+            handleSaveCurrentNote={this.props.onSaveCurrentNoteStart}
+            onChangeTitleHandler={this._onChangeTitleHandler}
+            notes={this.props.notes}
+            currentNote={this.props.currentNote}
+            location={this.props.location} // for checking routes and update title
+            saveNoteState={this.props.saveNoteState}
+            // for handle delete notes (snack bar)
+            snackOpen={this.state.snackOpen}
+            showConfirmDeleteNote={this._showConfirmDeleteNote} // NOT this.props!
+            closeSnackBar={this._closeSnackBar}
+            handleDeleteNote={this._handleDeleteNote}
           />
-          <Route
-            path={this.props.match.url} // path: /notes
-            render={props => (
-              <Dashboard
-                {...props}
-                notes={this.props.notes}
-                // for handle delete notes (snack bar)
-                snackOpen={this.state.snackOpen}
-                showConfirmDeleteNote={this._showConfirmDeleteNote}
-                closeSnackBar={this._closeSnackBar}
-                handleDeleteNote={this._handleDeleteNote}
-              />
-            )}
+
+          <SideBar
+            handleDrawerToggle={this._handleDrawerToggle}
+            mobileOpen={this.state.mobileOpen}
+            notes={this.props.notes}
           />
-        </Switch>
-      </div>
+
+          <Switch>
+            {/* nested route */}
+            <Route
+              path={this.props.match.url + '/:noteId'} // full path: /notes/:noteID
+              exact
+              render={props => (
+                <Editor
+                  {...props} // router props
+                  onSetCurrentNote={this.props.onSetCurrentNote}
+                  onSaveCurrentNote={this.props.onSaveCurrentNote}
+                  ifSaveCurrentNote={this.props.ifSaveCurrentNote}
+                  notes={this.props.notes}
+                  // clearAddNewNote={this.props.onClearAddNewNote}
+                />
+              )} // pass notes down
+            />
+            <Route
+              path={this.props.match.url} // path: /notes
+              render={props => (
+                <Dashboard
+                  {...props}
+                  notes={this.props.notes}
+                  // for handle delete notes (snack bar)
+                  snackOpen={this.state.snackOpen}
+                  showConfirmDeleteNote={this._showConfirmDeleteNote}
+                  closeSnackBar={this._closeSnackBar}
+                  handleDeleteNote={this._handleDeleteNote}
+                />
+              )}
+            />
+          </Switch>
+        </div>
+      </React.Fragment>
     );
   }
 }
@@ -161,7 +174,8 @@ const mapStateToProps = state => {
     // newNote: state._notes.newNote,
     saveNoteState: state._notes.saveNoteState,
     ifSaveCurrentNote: state._notes.ifSaveCurrentNote,
-    error: state._error.gError
+    error: state._global.gError,
+    loading: state._global.gLoading
   };
 };
 
@@ -181,7 +195,9 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.saveCurrentNoteAsync(content)),
     onDeleteNote: props => dispatch(actions.deleteNoteAsync(props)),
     // for error hoc
-    onClearGlobalError: () => dispatch(actions.clearGlobalError())
+    onClearGlobalError: () => dispatch(actions.clearGlobalError()),
+    // for loading
+    onClearGlobalLoading: () => dispatch(actions.clearGlobalLoading())
   };
 };
 

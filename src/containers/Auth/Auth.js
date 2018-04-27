@@ -198,7 +198,7 @@ Auth.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    error: state._error.gError
+    error: state._global.gError
   };
 };
 

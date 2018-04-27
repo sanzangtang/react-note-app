@@ -1,7 +1,7 @@
 // action creators
 import * as actionTypes from './actionTypes';
 import axiosIns from './axiosIns';
-import * as errorActions from './error';
+import * as globalActions from './global';
 
 export const setCurrentNote = selectedNote => {
   return {
@@ -34,7 +34,7 @@ export const fetchNotesAsync = (props = null) => {
         }
       })
       .catch(error => {
-        dispatch(errorActions.setGlobalError(error));
+        dispatch(globalActions.setGlobalError(error));
         // console.log(error);
       });
   };
@@ -78,7 +78,7 @@ export const addNewNoteAsync = props => {
       })
       .catch(error => {
         // console.log(error);
-        dispatch(errorActions.setGlobalError(error));
+        dispatch(globalActions.setGlobalError(error));
       });
   };
 };
@@ -144,7 +144,7 @@ export const saveCurrentNoteAsync = content => {
         }, 1000);
       })
       .catch(error => {
-        dispatch(errorActions.setGlobalError(error));
+        dispatch(globalActions.setGlobalError(error));
       });
   };
 };
@@ -209,7 +209,7 @@ export const deleteNoteAsync = props => {
         props.history.push('/notes');
       })
       .catch(error => {
-        dispatch(errorActions.setGlobalError(error));
+        dispatch(globalActions.setGlobalError(error));
       });
   };
 };
