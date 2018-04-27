@@ -27,6 +27,8 @@ export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
 export const SIGN_IN_FAIL = 'SIGN_IN_FAIL';
 
 export const CHECK_AUTH_STATE = 'CHECK_AUTH_STATE';
+export const SET_AUTH_STATE = 'SET_AUTH_STATE';
+export const CLEAR_AUTH_STATE = 'CLEAR_AUTH_STATE';
 
 // error
 export const SET_GLOBAL_ERROR = 'SET_GLOBAL_ERROR';

@@ -12,32 +12,46 @@ import * as actions from './store/actions/index';
 
 class App extends Component {
   componentDidMount() {
-    // check auth state here when page refreshes
-    this.props.onCheckAuthState();
     console.log('App: componentDidMount()');
+    // check auth state when page refreshes
+    this.props.onCheckAuthState();
   }
 
   render() {
-    // protect routes here
-    return (
-      <div>
+    console.log(this.props.isAuth);
+
+    let routes;
+
+    if (this.props.isAuth) {
+      // protected routes
+      routes = (
         <Switch>
           <Route path="/notes" component={Main} />
+          <Route path="/" component={Home} />
+        </Switch>
+      );
+    } else {
+      routes = (
+        <Switch>
           <Route path="/account" component={Auth} />
           <Route path="/" component={Home} />
         </Switch>
-      </div>
-    );
+      );
+    }
+
+    return <div>{routes}</div>;
   }
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    isAuth: state._auth.idToken !== null // a handy way (based on idToken)
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onCheckAuthState: () => dispatch(actions.checkAuthState())
+    onCheckAuthState: () => dispatch(actions.checkAuthStateAsync())
   };
 };
 

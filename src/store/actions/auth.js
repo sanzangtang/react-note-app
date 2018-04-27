@@ -46,25 +46,26 @@ export const signInAsync = (userData, props) => {
     axiosIns
       .post(signInUrl, postData)
       .then(resp => {
-        console.log('success');
         // prepare data
         const idToken = resp.data.idToken;
         const uid = resp.data.localId;
         const expiresDate =
           +resp.data.expiresIn + Math.floor(new Date().getTime() / 1000);
 
-        const data = {
-          idToken: idToken,
-          uid: uid,
-          expiresDate: expiresDate
-        };
+        // const data = {
+        //   idToken: idToken,
+        //   uid: uid,
+        //   expiresDate: expiresDate
+        // };
 
         // store data in local
         localStorage.setItem('idToken', idToken);
         localStorage.setItem('uid', uid);
         localStorage.setItem('expiresDate', expiresDate);
 
-        dispatch(signInSuccess(resp, data));
+        // dispatch(signInSuccess(resp, data));
+
+        dispatch(checkAuthStateAsync());
 
         // redirecting
         props.history.push('/notes');
@@ -76,18 +77,54 @@ export const signInAsync = (userData, props) => {
   };
 };
 
-export const checkAuthState = () => {
-  // check current date < expirationDate and idToken uid are not null
-  // if true refill redux state with idToken, uid
-  // else clear localStorage, and clear redux auth state
+export const checkAuthStateAsync = () => {
+  return dispatch => {
+    const idToken = localStorage.getItem('idToken');
+    const uid = localStorage.getItem('uid');
+    const expiresDate = localStorage.getItem('expiresDate');
 
-  // const expiresDate = localStorage.getItem('expiresDate');
-  // console.log(expiresDate);
-  return {
-    type: actionTypes.CHECK_AUTH_STATE
+    const timeNow = Math.floor(new Date().getTime() / 1000);
+
+    const data = {
+      idToken,
+      uid,
+      expiresDate
+    };
+
+    // check if not null
+    if (idToken && uid && expiresDate) {
+      console.log(expiresDate - timeNow);
+      // it token does not expire
+      if (expiresDate - timeNow > 0) {
+        // set redux state
+        dispatch(setAuthState(data));
+
+        // auto clear auth state
+        setTimeout(() => {
+          dispatch(clearAuthStateAndStorage());
+        }, (expiresDate - timeNow) * 1000); // milliseconds
+      } else {
+        dispatch(clearAuthStateAndStorage()); // mainly for clear local storage
+      }
+    }
   };
 };
 
-export const clearAuthState = () => {
-  // logout
+export const setAuthState = data => {
+  return {
+    type: actionTypes.SET_AUTH_STATE,
+    data: data
+  };
+};
+
+// this will be called if idtoken is not valid
+// or any error occurs to prevent harmful results
+export const clearAuthStateAndStorage = () => {
+  // remove local storage
+  localStorage.removeItem('idToken');
+  localStorage.removeItem('uid');
+  localStorage.removeItem('expiresDate');
+  return {
+    type: actionTypes.CLEAR_AUTH_STATE
+  };
 };
