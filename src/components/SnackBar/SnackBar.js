@@ -29,7 +29,7 @@ class SnackBar extends React.Component {
             horizontal: 'center'
           }}
           open={this.props.snackOpen}
-          autoHideDuration={this.props.ifAutoHide ? 4000 : null}
+          autoHideDuration={this.props.ifAutoHide ? 4000 : null} // if auto hide is true
           onClose={this.props.closeSnack}
           message={<span>{this.props.message}</span>}
           action={[

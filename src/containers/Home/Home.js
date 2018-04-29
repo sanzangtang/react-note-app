@@ -10,6 +10,7 @@ import SnackBar from '../../components/SnackBar/SnackBar';
 
 // redux
 import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
 
 const styles = theme => {
   return {
@@ -58,6 +59,14 @@ const styles = theme => {
         backgroundColor: '#2196F3'
       },
       borderRadius: '20px'
+    },
+    foot: {
+      marginTop: '310px'
+    },
+    footText: {
+      color: '#FAFAFA',
+      marginTop: '4px',
+      fontSize: '14px'
     }
   };
 };
@@ -67,15 +76,16 @@ class Home extends Component {
     snackOpen: true
   };
 
-  componentDidMount() {
-    console.log('Home: componentDidMount()');
-  }
+  // componentDidMount() {
+  //   console.log('Home: componentDidMount()');
+  // }
 
-  componentDidUpdate() {
-    console.log('Home: componentDidUpdate()');
-  }
+  // componentDidUpdate() {
+  //   console.log('Home: componentDidUpdate()');
+  // }
 
   _handleCloseSnack = () => {
+    this.props.onConfirmLogout();
     this.setState({ snackOpen: false });
   };
 
@@ -88,7 +98,7 @@ class Home extends Component {
         <SnackBar
           snackOpen={this.state.snackOpen}
           closeSnack={this._handleCloseSnack}
-          message="You have logged out or user session expired"
+          message="You logged out or user session expired"
         />
       );
     }
@@ -130,6 +140,13 @@ class Home extends Component {
               Get Started
             </Button>
           </div>
+
+          <div className={classes.foot}>
+            <p className={classes.footText}>
+              - This is a learning by doing project -
+            </p>
+            <p className={classes.footText}>April 2018</p>
+          </div>
         </div>
       </div>
     );
@@ -143,4 +160,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(Home));
+const mapDispatchToProps = dispatch => {
+  return {
+    onConfirmLogout: () => dispatch(actions.confirmLogout())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(Home)
+);

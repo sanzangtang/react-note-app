@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Editor from '../../components/Editor/Editor';
 import TopBar from '../../components/TopBar/TopBar';
 import SideBar from '../../components/SideBar/SideBar';
-import Dashboard from '../../components/Dashboard/Dashboard';
 import { Route, Switch } from 'react-router-dom';
 import FloatButton from '../../components/FloatButton/FloatButton';
 import Loading from '../../components/Loading/Loading';
+import SnackBar from '../../components/SnackBar/SnackBar';
+import Editor from '../../components/Editor/Editor';
 
 // redux
 import { connect } from 'react-redux';
@@ -14,6 +14,22 @@ import * as actions from '../../store/actions/index';
 
 // hoc
 import withError from '../../hoc/withError';
+
+// react loadable
+import Loadable from 'react-loadable';
+const LoadableDashboard = Loadable({
+  loader: () => import('../../components/Dashboard/Dashboard'),
+  loading() {
+    return null;
+  }
+});
+
+// const LoadableEditor = Loadable({
+//   loader: () => import('../../components/Editor/Editor'),
+//   loading() {
+//     return null;
+//   }
+// });
 
 const styles = theme => ({
   root: {
@@ -51,7 +67,7 @@ class Main extends React.Component {
   };
 
   _showConfirmDeleteNote = noteId => {
-    // show snack bar
+    // show snack bar first
     this._openSnackBar();
 
     // in the dashboard we get note id back when button is clicked
@@ -62,6 +78,8 @@ class Main extends React.Component {
   _handleDeleteNote = () => {
     // close snack bar immediately when clicking confirm
     this._closeSnackBar();
+
+    // dispatch an action
     this.props.onDeleteNote(this.props); // for redirecting
   };
 
@@ -72,13 +90,13 @@ class Main extends React.Component {
   };
 
   componentDidMount() {
-    console.log('MainLayout: componentDidMount()');
+    // console.log('MainLayout: componentDidMount()');
     // load notes data when component is mounted
     this.props.onfetchNotes();
   }
 
   componentDidUpdate(prevProps) {
-    console.log('MainLayout: componentDidUpdate()');
+    // console.log('MainLayout: componentDidUpdate()');
 
     // clear current note
     // solve the routing issue
@@ -93,7 +111,7 @@ class Main extends React.Component {
     if (this.props.loading) {
       setTimeout(() => {
         this.props.onClearGlobalLoading();
-      }, 1500); // extends animation time here (to deceive user)
+      }, 1000); // extends animation time here (to deceive user visually)
     }
   }
 
@@ -102,8 +120,17 @@ class Main extends React.Component {
 
     return (
       <React.Fragment>
+        {/* loading animation */}
         <Loading loading={this.props.loading} />
+
         <div className={classes.root}>
+          <SnackBar
+            message={'Do you want to delete?'}
+            snackOpen={this.state.snackOpen}
+            closeSnack={this._closeSnackBar}
+            mainAction={this._handleDeleteNote}
+            ifAutoHide
+          />
           <FloatButton handleAddNewNote={this._handleAddNewNote} />
           <TopBar
             handleDrawerToggle={this._handleDrawerToggle}
@@ -114,10 +141,7 @@ class Main extends React.Component {
             location={this.props.location} // for checking routes and update title
             saveNoteState={this.props.saveNoteState}
             // for handle delete notes (snack bar)
-            snackOpen={this.state.snackOpen}
             showConfirmDeleteNote={this._showConfirmDeleteNote} // NOT this.props!
-            closeSnackBar={this._closeSnackBar}
-            handleDeleteNote={this._handleDeleteNote}
           />
 
           <SideBar
@@ -146,14 +170,11 @@ class Main extends React.Component {
             <Route
               path={this.props.match.url} // path: /notes
               render={props => (
-                <Dashboard
+                <LoadableDashboard
                   {...props}
                   notes={this.props.notes}
                   // for handle delete notes (snack bar)
-                  snackOpen={this.state.snackOpen}
                   showConfirmDeleteNote={this._showConfirmDeleteNote}
-                  closeSnackBar={this._closeSnackBar}
-                  handleDeleteNote={this._handleDeleteNote}
                 />
               )}
             />

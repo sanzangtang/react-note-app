@@ -50,6 +50,8 @@ const lighttheme = createMuiTheme({
   }
 });
 
+// an alternative color theme
+// eslint-disable-next-line
 const darktheme = createMuiTheme({
   palette: {
     primary: {

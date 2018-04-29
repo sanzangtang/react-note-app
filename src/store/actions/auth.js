@@ -3,7 +3,7 @@ import axiosIns from './axiosIns';
 import * as globalActions from './global';
 
 // your firebase api key
-const apiKey = 'AIzaSyCrlk7RKN_0uXLVij-3Y8OrFScuK0zUlLw';
+const apiKey = process.env.REACT_APP_API_KEY;
 
 const signUpUrl =
   'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' +
@@ -77,6 +77,10 @@ export const signInAsync = (userData, props) => {
   };
 };
 
+export const signUpAsync = () => {
+  return dispatch => {};
+};
+
 export const checkAuthStateAsync = () => {
   return dispatch => {
     const idToken = localStorage.getItem('idToken');
@@ -93,7 +97,7 @@ export const checkAuthStateAsync = () => {
 
     // check if not null
     if (idToken && uid && expiresDate) {
-      console.log(expiresDate - timeNow);
+      // console.log(expiresDate - timeNow);
       // it token does not expire
       if (expiresDate - timeNow > 0) {
         // set redux state
@@ -114,6 +118,12 @@ export const setAuthState = data => {
   return {
     type: actionTypes.SET_AUTH_STATE,
     data: data
+  };
+};
+
+export const confirmLogout = () => {
+  return {
+    type: actionTypes.CONFIRM_LOGOUT
   };
 };
 

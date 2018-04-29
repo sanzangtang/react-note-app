@@ -15,13 +15,13 @@ const styles = theme => ({
 });
 
 class SideBarContent extends Component {
-  componentDidMount() {
-    console.log('SideBarContent: componentDidMount()');
-  }
+  // componentDidMount() {
+  //   console.log('SideBarContent: componentDidMount()');
+  // }
 
-  componentDidUpdate() {
-    console.log('SideBarContent: componentDidUpdate()');
-  }
+  // componentDidUpdate() {
+  //   console.log('SideBarContent: componentDidUpdate()');
+  // }
 
   shouldComponentUpdate(nextProps, nexState) {
     // do not re-render SideBar if notes are the same

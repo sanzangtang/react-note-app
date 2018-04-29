@@ -85,13 +85,13 @@ class Auth extends Component {
   };
 
   componentDidMount() {
-    console.log('Auth: componentDidMount()');
+    // console.log('Auth: componentDidMount()');
     this.props.onSetGlobalLoading();
   }
 
-  componentDidUpdate() {
-    console.log('Auth: componentDidUpdate()');
-  }
+  // componentDidUpdate() {
+  //   console.log('Auth: componentDidUpdate()');
+  // }
 
   _handleSwitchMode = () => {
     this.setState({ ifSignInMode: !this.state.ifSignInMode });

@@ -221,7 +221,7 @@ export const deleteNoteAsync = props => {
         // refetch a list of notes
         dispatch(fetchNotesAsync());
 
-        console.log(props);
+        // console.log(props);
         // redirecting to dashboard
         props.history.push('/notes');
       })

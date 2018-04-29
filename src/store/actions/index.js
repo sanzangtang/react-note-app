@@ -15,7 +15,8 @@ export {
 export {
   signInAsync,
   checkAuthStateAsync,
-  clearAuthStateAndStorage
+  clearAuthStateAndStorage,
+  confirmLogout
 } from './auth';
 
 export {

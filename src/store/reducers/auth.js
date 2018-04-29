@@ -45,6 +45,11 @@ const reducer = (state = initialState, action) => {
         expiresDate: null,
         ifLogout: true
       };
+    case actionTypes.CONFIRM_LOGOUT:
+      return {
+        ...state,
+        ifLogout: false
+      };
     default:
       return state;
   }

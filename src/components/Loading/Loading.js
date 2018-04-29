@@ -36,7 +36,7 @@ class Loading extends Component {
   render() {
     const { classes } = this.props;
 
-    console.log('loading loading', this.props.loading);
+    // console.log('loading loading', this.props.loading);
 
     // if loading finished (false) and exit is false
     if (!this.props.loading && !this.state.exit) {

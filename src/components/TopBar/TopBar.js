@@ -14,7 +14,6 @@ import Typography from 'material-ui/Typography';
 import { CircularProgress } from 'material-ui/Progress';
 import green from 'material-ui/colors/green';
 import Check from '@material-ui/icons/Check';
-import SnackBar from '../SnackBar/SnackBar';
 
 const drawerWidth = 300;
 
@@ -88,13 +87,8 @@ const styles = theme => ({
 });
 
 class TopBar extends Component {
-  componentDidUpdate() {
-    // console.log('Topbar: componentDidUpdate() ');
-    // console.log(this.props.location.pathname);
-  }
-
   render() {
-    console.log('TopBar: render()');
+    // console.log('TopBar: render()');
     const { classes } = this.props;
 
     // topbar will render first so it does not receive currentNote
@@ -173,17 +167,10 @@ class TopBar extends Component {
       );
     }
 
-    console.log(this.props.location.pathname);
+    // console.log(this.props.location.pathname);
 
     return (
       <React.Fragment>
-        <SnackBar
-          message={'Do you want to delete?'}
-          snackOpen={this.props.snackOpen}
-          closeSnack={this.props.closeSnackBar}
-          mainAction={this.props.handleDeleteNote}
-          ifAutoHide
-        />
         <AppBar className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
             <IconButton
