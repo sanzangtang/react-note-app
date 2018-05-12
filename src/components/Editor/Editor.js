@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import pell from 'pell';
-// import defaultStyles from './pell.min.css';
-// import customStyles from './Editor.css';
 import { withStyles } from 'material-ui/styles';
-// import 'pell/dist/pell.min.css';
+import pell from 'pell';
 import './Editor.css';
 
 const styles = theme => ({
@@ -28,20 +25,7 @@ class Editor extends Component {
     // detail docs https://github.com/jaredreich/pell
     pell.init({
       element: this.container, // created by ref
-      onChange: () => {}
-      // use css modules and this is for style customization
-      // classes: {
-      //   actionbar: [
-      //     customStyles['pell-actionbar'],
-      //     defaultStyles['pell-actionbar']
-      //   ].join(' '),
-      //   button: defaultStyles['pell-button'],
-      //   content: [
-      //     customStyles['pell-content'],
-      //     defaultStyles['pell-content']
-      //   ].join(' '),
-      //   selected: defaultStyles['pell-button-selected']
-      // }
+      onChange: () => {} // do nothing
     });
   };
 
@@ -78,12 +62,7 @@ class Editor extends Component {
     }
   }
 
-  // from react doc:
-  // "This is also a good place to do network requests
-  // as long as you compare the current props to previous props"
   componentDidUpdate(prevProps) {
-    // console.log('Editor: componentDidUpdate()');
-
     // only if route path changed then fetch new data
     if (prevProps.location.pathname !== this.props.location.pathname) {
       if (this._fecthCurrentNote()) {

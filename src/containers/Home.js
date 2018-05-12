@@ -23,11 +23,6 @@ const styles = theme => {
       height: '100%',
       width: '100%',
       background: theme.palette.primary.main,
-      // background:
-      //   'linear-gradient(201deg, rgba(42,230,232,1) 0%, rgba(137,190,250,1) 42%, rgba(45,156,253,1) 100%)',
-      // backgroundImage: `url(${bg})`,
-      // backgroundRepeat: 'no-repeat',
-      // backgroundSize: 'cover',
       zIndex: -1,
       textAlign: 'center'
     },
@@ -75,14 +70,6 @@ class Home extends Component {
   state = {
     snackOpen: true
   };
-
-  // componentDidMount() {
-  //   console.log('Home: componentDidMount()');
-  // }
-
-  // componentDidUpdate() {
-  //   console.log('Home: componentDidUpdate()');
-  // }
 
   _handleCloseSnack = () => {
     this.props.onConfirmLogout();

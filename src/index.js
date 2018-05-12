@@ -21,10 +21,9 @@ let app = (
   </Provider>
 );
 
-// using editor on mobile device is kind of buggy
+// using editor on mobile device is kind of buggy in styles
 // simply disable it on all mobile devices for saving styling works
-// mobile browser checker doc:
-// https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
+// mobile browser checker doc: https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
 if (mobilecheck()) {
   app = (
     <h3 style={{ textAlign: 'center' }}>

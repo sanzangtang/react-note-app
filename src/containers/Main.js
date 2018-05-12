@@ -16,8 +16,8 @@ import * as actions from '../store/actions/index';
 import withError from '../hoc/withError';
 
 // react loadable
-// does not work for Editor
 import Loadable from 'react-loadable';
+
 const LoadableDashboard = Loadable({
   loader: () => import('../components/Dashboard'),
   loading() {

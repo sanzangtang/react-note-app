@@ -213,9 +213,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  withError(
-    Auth,
-    styles
-    // 'Email does not exist or password is wrong, please try again.'
-  )
+  withError(Auth, styles)
 );
