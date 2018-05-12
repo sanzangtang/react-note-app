@@ -1,35 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TopBar from '../../components/TopBar/TopBar';
-import SideBar from '../../components/SideBar/SideBar';
+import TopBar from '../components/TopBar';
+import SideBar from '../components/SideBar/SideBar';
 import { Route, Switch } from 'react-router-dom';
-import FloatButton from '../../components/FloatButton/FloatButton';
-import Loading from '../../components/Loading/Loading';
-import SnackBar from '../../components/SnackBar/SnackBar';
-import Editor from '../../components/Editor/Editor';
+import FloatButton from '../components/FloatButton';
+import Loading from '../components/Loading';
+import SnackBar from '../components/SnackBar';
+import Editor from '../components/Editor/Editor';
 
 // redux
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions/index';
+import * as actions from '../store/actions/index';
 
 // hoc
-import withError from '../../hoc/withError';
+import withError from '../hoc/withError';
 
 // react loadable
+// does not work for Editor
 import Loadable from 'react-loadable';
 const LoadableDashboard = Loadable({
-  loader: () => import('../../components/Dashboard/Dashboard'),
+  loader: () => import('../components/Dashboard'),
   loading() {
     return null;
   }
 });
-
-// const LoadableEditor = Loadable({
-//   loader: () => import('../../components/Editor/Editor'),
-//   loading() {
-//     return null;
-//   }
-// });
 
 const styles = theme => ({
   root: {

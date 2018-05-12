@@ -10,15 +10,15 @@ import Lock from '@material-ui/icons/LockOutline';
 import { InputAdornment } from 'material-ui/Input';
 
 // background image path
-import bg from '../../assets/bg.jpg';
+import bg from '../assets/bg.jpg';
 
 // redux
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actions from '../../store/actions/index';
+import * as actions from '../store/actions/index';
 
 // hoc
-import withError from '../../hoc/withError';
+import withError from '../hoc/withError';
 
 const styles = theme => ({
   root: {

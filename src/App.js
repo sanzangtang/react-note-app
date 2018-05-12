@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-// import Main from './containers/Main/Main';
-// import Home from './containers/Home/Home';
-// import Auth from './containers/Auth/Auth';
 import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
@@ -12,21 +9,21 @@ import * as actions from './store/actions/index';
 import Loadable from 'react-loadable';
 
 const LoadableMain = Loadable({
-  loader: () => import('./containers/Main/Main'),
+  loader: () => import('./containers/Main'),
   loading() {
     return null;
   }
 });
 
 const LoadableHome = Loadable({
-  loader: () => import('./containers/Home/Home'),
+  loader: () => import('./containers/Home'),
   loading() {
     return null;
   }
 });
 
 const LoadableAuth = Loadable({
-  loader: () => import('./containers/Auth/Auth'),
+  loader: () => import('./containers/Auth'),
   loading() {
     return null;
   }

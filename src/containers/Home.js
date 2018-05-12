@@ -6,11 +6,11 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Tooltip from 'material-ui/Tooltip';
 import ChevronRight from '@material-ui/icons/ChevronRight';
-import SnackBar from '../../components/SnackBar/SnackBar';
+import SnackBar from '../components/SnackBar';
 
 // redux
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions/index';
+import * as actions from '../store/actions/index';
 
 const styles = theme => {
   return {
