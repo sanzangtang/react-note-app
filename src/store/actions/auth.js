@@ -5,6 +5,7 @@ import * as globalActions from './global';
 // your firebase api key
 const apiKey = process.env.REACT_APP_API_KEY;
 
+// eslint-disable-next-line
 const signUpUrl =
   'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' +
   apiKey;
@@ -18,20 +19,11 @@ export const signInStart = () => {
   };
 };
 
-// export const signInSuccess = (resp, data) => {
-//   return {
-//     type: actionTypes.SIGN_IN_SUCCESS,
-//     resp: resp,
-//     data: data
-//   };
-// };
-
-// export const signInFail = error => {
-//   return {
-//     type: actionTypes.SIGN_IN_FAIL,
-//     error: error
-//   };
-// };
+export const signUpStart = () => {
+  return {
+    type: actionTypes.SIGN_UP_START
+  };
+};
 
 export const signInAsync = (userData, props) => {
   return (dispatch, getState) => {
@@ -52,18 +44,10 @@ export const signInAsync = (userData, props) => {
         const expiresDate =
           +resp.data.expiresIn + Math.floor(new Date().getTime() / 1000);
 
-        // const data = {
-        //   idToken: idToken,
-        //   uid: uid,
-        //   expiresDate: expiresDate
-        // };
-
         // store data in local
         localStorage.setItem('idToken', idToken);
         localStorage.setItem('uid', uid);
         localStorage.setItem('expiresDate', expiresDate);
-
-        // dispatch(signInSuccess(resp, data));
 
         dispatch(checkAuthStateAsync());
 
@@ -71,14 +55,15 @@ export const signInAsync = (userData, props) => {
         props.history.push('/notes');
       })
       .catch(error => {
-        console.log(error);
         dispatch(globalActions.setGlobalError(error));
       });
   };
 };
 
-export const signUpAsync = () => {
-  return dispatch => {};
+export const signUpAsync = (userData, props) => {
+  return dispatch => {
+    dispatch(signUpStart());
+  };
 };
 
 export const checkAuthStateAsync = () => {

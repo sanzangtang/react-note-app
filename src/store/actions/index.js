@@ -14,6 +14,7 @@ export {
 
 export {
   signInAsync,
+  signUpAsync,
   checkAuthStateAsync,
   clearAuthStateAndStorage,
   confirmLogout

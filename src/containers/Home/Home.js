@@ -61,7 +61,7 @@ const styles = theme => {
       borderRadius: '20px'
     },
     foot: {
-      marginTop: '310px'
+      marginTop: '280px'
     },
     footText: {
       color: '#FAFAFA',

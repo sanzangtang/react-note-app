@@ -14,6 +14,7 @@ import bg from '../../assets/bg.jpg';
 
 // redux
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as actions from '../../store/actions/index';
 
 // hoc
@@ -75,33 +76,26 @@ const styles = theme => ({
 });
 
 class Auth extends Component {
-  // internal state is fair
   state = {
     ifSignInMode: true,
-    loginForm: {
+    form: {
       email: null,
       password: null
     }
   };
 
   componentDidMount() {
-    // console.log('Auth: componentDidMount()');
-    this.props.onSetGlobalLoading();
+    this.props.boundActions.setGlobalLoading();
   }
-
-  // componentDidUpdate() {
-  //   console.log('Auth: componentDidUpdate()');
-  // }
 
   _handleSwitchMode = () => {
     this.setState({ ifSignInMode: !this.state.ifSignInMode });
   };
 
   _handleFormChange = (event, key) => {
-    // console.log(key, event.target.value);
     this.setState({
-      loginForm: {
-        ...this.state.loginForm,
+      form: {
+        ...this.state.form,
         [key]: event.target.value
       }
     });
@@ -109,11 +103,12 @@ class Auth extends Component {
 
   _handleFormSubmit = event => {
     event.preventDefault();
-    this.props.onSignIn(this.state.loginForm, this.props); // pass props for redirecting
-  };
-
-  _checkFormValidation = () => {
-    // validate form when clicking on a button
+    if (this.state.ifSignInMode) {
+      this.props.boundActions.signInAsync(this.state.form, this.props); // pass props for redirecting
+    } else {
+      // sign up
+      this.props.boundActions.signUpAsync(this.state.form, this.props);
+    }
   };
 
   render() {
@@ -159,7 +154,7 @@ class Auth extends Component {
             color="secondary"
             onClick={this._handleSwitchMode}
           >
-            Register
+            {this.state.ifSignInMode ? 'Register' : 'Back'}
           </Button>
           <Button
             className={classes.signIn}
@@ -167,14 +162,13 @@ class Auth extends Component {
             color="primary"
             type="submit"
           >
-            Login
+            {this.state.ifSignInMode ? 'Login' : 'Register'}
           </Button>
         </div>
       </form>
     );
 
-    if (!this.state.ifSignInMode) {
-    }
+    let signUpSuccess = <p>Your account is: </p>;
 
     return (
       <div className={classes.root}>
@@ -186,10 +180,9 @@ class Auth extends Component {
             <Paper className={classes.paper} elevation={1}>
               <div className={classes.banner}>
                 <Typography className={classes.bannerTitle} variant="display1">
-                  WELCOME!
+                  {this.state.ifSignInMode ? 'WELCOME!' : 'REGISTER'}
                 </Typography>
               </div>
-              {/* {errorMsg} */}
               {form}
             </Paper>
           </Grid>
@@ -212,17 +205,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSignIn: (userData, props) =>
-      dispatch(actions.signInAsync(userData, props)),
-    onClearGlobalError: () => dispatch(actions.clearGlobalError()),
-    onSetGlobalLoading: () => dispatch(actions.setGlobalLoading()) // for login loading
+    // just an example of using bindActionCreators for reducing some codes
+    // call this.props.boundActions
+    boundActions: bindActionCreators(actions, dispatch),
+    onClearGlobalError: () => dispatch(actions.clearGlobalError())
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   withError(
     Auth,
-    styles,
-    'Email does not exist or password is wrong, please try again.'
+    styles
+    // 'Email does not exist or password is wrong, please try again.'
   )
 );

@@ -10,9 +10,13 @@ import Dialog, {
 import { withStyles } from 'material-ui/styles';
 import Error from '@material-ui/icons/ErrorOutline';
 
+const mapErrorMsg = {
+  EMAIL_NOT_FOUND: 'Email does not exist.',
+  INVALID_PASSWORD: 'Password is invalid.'
+};
+
 // when wrapped component is connected (also wrapped) to redux
 // WithError will have all props that wrapped component has
-// it sounds interesting
 const withError = (WrappedComponent, styles, errorMessage = null) => {
   class WithError extends Component {
     state = {
@@ -25,8 +29,6 @@ const withError = (WrappedComponent, styles, errorMessage = null) => {
       this.props.onClearGlobalError();
     };
 
-    componentDidMount() {}
-
     componentDidUpdate() {
       if (this.props.error && !this.state.open) {
         this.setState({ open: true });
@@ -38,7 +40,9 @@ const withError = (WrappedComponent, styles, errorMessage = null) => {
 
       if (this.props.error) {
         // check customized error message or set at default
-        const message = errorMessage ? errorMessage : this.props.error.message;
+        const message = errorMessage
+          ? errorMessage
+          : mapErrorMsg[this.props.error.response.data.error.message]; // firebase error.message
 
         dialog = (
           <Dialog open={this.state.open} onClose={this._handleClose}>

@@ -23,8 +23,7 @@ export const FETCH_NOTES_SUCCESS = 'FETCH_NOTES_SUCCESS';
 
 // authentication
 export const SIGN_IN_START = 'SIGN_IN_START';
-export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
-export const SIGN_IN_FAIL = 'SIGN_IN_FAIL';
+export const SIGN_UP_START = 'SIGN_UP_START';
 
 export const CHECK_AUTH_STATE = 'CHECK_AUTH_STATE';
 export const SET_AUTH_STATE = 'SET_AUTH_STATE';

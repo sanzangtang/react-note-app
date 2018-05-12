@@ -18,18 +18,10 @@ const reducer = (state = initialState, action) => {
         expiresDate: null,
         ifLogout: false
       };
-    // case actionTypes.SIGN_IN_SUCCESS:
-    //   return {
-    //     ...state,
-    //     resp: action.resp,
-    //     idToken: action.data.idToken,
-    //     uid: action.data.uid,
-    //     expiresDate: action.data.expiresDate
-    //   };
-    // case actionTypes.SIGN_IN_FAIL:
-    //   return {
-    //     ...state
-    //   };
+    case actionTypes.SIGN_UP_START:
+      return {
+        ...state
+      };
     case actionTypes.SET_AUTH_STATE:
       return {
         ...state,
