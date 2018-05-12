@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
 
+// lazy load
 import Loadable from 'react-loadable';
 
 const LoadableMain = Loadable({
@@ -31,19 +32,12 @@ const LoadableAuth = Loadable({
 
 class App extends Component {
   componentDidMount() {
-    // console.log('App: componentDidMount()');
     // check auth state when page refreshes
     this.props.onSetGlobalLoading();
     this.props.onCheckAuthState();
   }
 
-  // componentDidUpdate() {
-  //   console.log('App: componentDidUpdate()');
-  // }
-
   render() {
-    // console.log(this.props.isAuth);
-
     let routes;
 
     if (this.props.isAuth) {
