@@ -5,7 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import mobilecheck from './utils/mobilecheck';
 import { BrowserRouter } from 'react-router-dom';
-import { MuiThemeProvider } from 'material-ui/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 // eslint-disable-next-line
 import { lighttheme, darktheme } from './constant/theme';
 import { Provider } from 'react-redux';

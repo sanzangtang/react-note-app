@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Paper from 'material-ui/Paper';
-import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import Email from '@material-ui/icons/MailOutline';
 import Lock from '@material-ui/icons/LockOutline';
-import { InputAdornment } from 'material-ui/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 // background image path
 import bg from '../assets/bg.jpg';

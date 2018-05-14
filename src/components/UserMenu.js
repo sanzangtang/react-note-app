@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
-import Menu, { MenuItem } from 'material-ui/Menu';
-import { withStyles } from 'material-ui/styles';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import Accountcircle from '@material-ui/icons/AccountCircle';
 import Settings from '@material-ui/icons/Settings';
 import ExitToApp from '@material-ui/icons/ExitToApp';
-import { fade } from 'material-ui/styles/colorManipulator';
 import { Link } from 'react-router-dom';
 
 const styles = theme => ({
@@ -16,10 +16,7 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     '&:hover': {
-      backgroundColor: fade(
-        theme.palette.action.hover,
-        theme.palette.action.hoverOpacity
-      )
+      backgroundColor: theme.palette.action.hoverOpacity
     }
   },
   icon: {

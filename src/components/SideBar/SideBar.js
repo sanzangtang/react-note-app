@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Drawer from 'material-ui/Drawer';
-import Hidden from 'material-ui/Hidden';
+import { withStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
 import SideBarContent from './SideBarContent';
-import Avatar from 'material-ui/Avatar';
+import Avatar from '@material-ui/core/Avatar';
 import UserMenu from '../UserMenu';
-import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 import { Link } from 'react-router-dom';
 
 const drawerWidth = 300;

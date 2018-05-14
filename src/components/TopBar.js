@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import IconButton from 'material-ui/IconButton';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import TextField from 'material-ui/TextField';
+import TextField from '@material-ui/core/TextField';
 import Save from '@material-ui/icons/Save';
 import Delete from '@material-ui/icons/Delete';
-import Tooltip from 'material-ui/Tooltip';
-import Typography from 'material-ui/Typography';
-import { CircularProgress } from 'material-ui/Progress';
-import green from 'material-ui/colors/green';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import green from '@material-ui/core/colors/green';
 import Check from '@material-ui/icons/Check';
 
 const drawerWidth = 300;
@@ -44,12 +44,14 @@ const styles = theme => ({
   },
   underline: {
     '&:after': {
-      backgroundColor: theme.palette.primary.contrastText
+      borderBottom: '2px solid theme.palette.primary.contrastText'
     },
     '&:before': {
-      backgroundColor: 'transparent'
+      borderBottom: '1px solid transparent'
+    },
+    '&:hover:not(.foo):not(.foo):not(.foo):before': {
+      borderBottom: '1px solid white'
     }
-    // hover seems broken
   },
   fullWidth: {
     width: '90%',
