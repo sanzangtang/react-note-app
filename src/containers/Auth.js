@@ -44,7 +44,8 @@ const styles = theme => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit
   },
   banner: {
     position: 'relative',
@@ -168,8 +169,6 @@ class Auth extends Component {
       </form>
     );
 
-    let signUpSuccess = <p>Your account is: </p>;
-
     return (
       <div className={classes.root}>
         <div className={classes.image} />
@@ -184,6 +183,12 @@ class Auth extends Component {
                 </Typography>
               </div>
               {form}
+              <p style={{ margin: 0, paddingTop: '8px' }}>
+                Use <b>guest@note.com</b> to login
+              </p>
+              <p style={{ margin: 0, paddingBottom: '8px' }}>
+                Password: guest123
+              </p>
             </Paper>
           </Grid>
           <Grid item xs={1} sm={2} md={3} lg={4} />

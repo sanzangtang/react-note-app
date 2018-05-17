@@ -16,21 +16,25 @@ export const fetchNotesAsync = (props = null) => {
     const idToken = getState()._auth.idToken;
 
     axiosIns
-      // .get('/notes.json')
       .get(`/users/${uid}/notes.json?auth=${idToken}`)
       .then(resp => {
         // due to firebase's nature
         // data is ordered by date (from old to new)
         // we want to reverse it
-        const oldNotes = resp.data;
+        if (resp.data) {
+          const oldNotes = resp.data;
 
-        const notes = Object.keys(oldNotes)
-          .reverse()
-          .map(key => {
-            return { ...oldNotes[key], id: key };
-          });
+          const notes = Object.keys(oldNotes)
+            .reverse()
+            .map(key => {
+              return { ...oldNotes[key], id: key };
+            });
 
-        dispatch(fetchNotesSuccess(notes));
+          dispatch(fetchNotesSuccess(notes));
+        } else {
+          // easy fix no notes on the database
+          dispatch(fetchNotesSuccess([]));
+        }
 
         // redirect to the new note route if received props
         if (props) {
@@ -75,7 +79,6 @@ export const addNewNoteAsync = props => {
     const idToken = getState()._auth.idToken;
 
     axiosIns
-      // .post('/notes.json', data)
       .post(`/users/${uid}/notes.json?auth=${idToken}`, data)
       .then(resp => {
         // get response from server
@@ -145,7 +148,6 @@ export const saveCurrentNoteAsync = content => {
     const idToken = getState()._auth.idToken;
 
     axiosIns
-      // .put('/notes/' + noteId + '.json', data)
       .put(`/users/${uid}/notes/${noteId}.json?auth=${idToken}`, data)
       .then(resp => {
         // extend animation time
@@ -214,7 +216,6 @@ export const deleteNoteAsync = props => {
     const idToken = getState()._auth.idToken;
 
     axiosIns
-      // .delete('/notes/' + noteId + '.json')
       .delete(`/users/${uid}/notes/${noteId}.json?auth=${idToken}`)
       .then(resp => {
         dispatch(deleteNoteSuccess());

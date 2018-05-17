@@ -5,8 +5,12 @@ import notesReducer from './reducers/notes';
 import authReducer from './reducers/auth';
 import globalReducer from './reducers/global';
 
+let composeEnhancers = compose;
+
 // redux devtools
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+if (process.env.NODE_ENV === 'development') {
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+}
 
 const rootReducer = combineReducers({
   _notes: notesReducer,

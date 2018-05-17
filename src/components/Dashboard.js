@@ -80,7 +80,7 @@ const Dashboard = props => {
       const imgRex = note.content.match(/<img src="([\w\W]+?)"/);
       let imgLink = '';
       if (imgRex) {
-        imgLink = imgRex[0].slice(9);
+        imgLink = imgRex[0].slice(10, -1);
       }
 
       return (
